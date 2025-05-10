@@ -52,15 +52,20 @@ export const Experience = () => {
       cameraControls.current.setLookAt(0, 2.2, 5, 0, 1.0, 0, true);
     }
   }, [cameraZoomed]);
+
   return (
     <>
       <CameraControls ref={cameraControls} />
-      <Environment preset="sunset" />
+      <Suspense>
+        <Environment files="/venice_sunset_1k.hdr" />
+      </Suspense>
       {/* Wrapping Dots into Suspense to prevent Blink when Troika/Font is loaded */}
       <Suspense>
         <Dots position-y={1.75} position-x={-0.02} />
       </Suspense>
-      <Avatar />
+      <Suspense>
+        <Avatar />
+      </Suspense>
       <ContactShadows opacity={0.7} />
     </>
   );
