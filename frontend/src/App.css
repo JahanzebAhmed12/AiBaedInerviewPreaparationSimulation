@@ -1,0 +1,136 @@
+/* General App container styles
+.App {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+} */
+
+/* Main section layout for Dashboard */
+/* main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 70px;  
+  margin-left: 250px;  
+  padding: 30px;
+  background-color: #ecf0f1;
+  min-height: calc(100vh - 70px);  
+} */
+
+/* Header styling */
+/* .app-header {
+  text-align: center;
+  color: #ffffff;
+  font-size: 2.5rem;
+  font-family: Arial, sans-serif;
+  letter-spacing: 1px;
+ 
+  margin-bottom: 20px;
+} */
+
+/* Typography styles */
+h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #2c3e50;
+
+}
+
+p {
+  font-size: 16px;
+  color: #34495e;
+}
+
+/* Button styling */
+button {
+  padding: 10px 20px;
+  background-color: #1abc9c;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #16a085;
+}
+
+/* Background and layout for Login */
+/* body {
+  font-family: 'Roboto', sans-serif;
+  background-image: url('/public/bot.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+} */
+
+/* Animations for Start Interview */
+/* .App-logo {
+  height: 40vmin;
+  pointer-events: none;
+} */
+
+/* @media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+} */
+/* 
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
+
+/* Footer links
+.App-link {
+  color: #61dafb;
+} */
+
+/* Full-page background gradient and image */
+/* .form-container {
+  width: 100%;
+  max-width: 600px;
+  padding: 40px;
+  background: rgba(0, 0, 0, 0.444);  
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(12px);  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(1);  
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;  
+} */
+
+/* Animation for form fade-in */
+/* @keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+} */
+
+/* Form styling */
+/* .form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
+} */
+ 
+
+ 

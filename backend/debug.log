@@ -1,0 +1,60 @@
+2025-04-24 16:57:43,139 - DEBUG - User speech input: Hello. Can you hear me?
+2025-04-24 16:57:44,216 - DEBUG - Model response: {
+   "messages": [
+      {
+         "text": "Hello! Yes, I can hear you. Please introduce yourself and let me know your area of expertise.",
+         "facialExpression": "smile",
+         "animation": "Talking_0"
+      }
+   ]
+}
+2025-04-24 16:57:45,708 - DEBUG - Audio file created: E:\Project\latest\backend\fastapi_app\models\audios\message_0.mp3
+2025-04-24 16:57:49,462 - DEBUG - Rhubarb processing completed successfully for message_0
+2025-04-24 16:57:49,463 - DEBUG - Rhubarb processing completed for message_0
+2025-04-24 16:57:49,469 - DEBUG - Response sent back to client
+2025-04-24 16:58:14,988 - DEBUG - User speech input: My name is Ali, and my field of expertise is
+2025-04-24 16:58:20,573 - DEBUG - User speech input: programming.
+2025-04-24 16:58:29,398 - DEBUG - Model response: {
+   "messages": [
+      {
+         "text": "Nice to meet you, Ali. Thank you for joining this simulation interview. Can you start by telling me about your experience with programming languages?",
+         "facialExpression": "smile",
+         "animation": "Talking_0"
+      }
+   ]
+}
+2025-04-24 16:59:00,290 - DEBUG - Audio file created: E:\Project\latest\backend\fastapi_app\models\audios\message_0.mp3
+2025-04-24 16:59:02,790 - DEBUG - Rhubarb processing completed successfully for message_0
+2025-04-24 16:59:02,790 - DEBUG - Rhubarb processing completed for message_0
+2025-04-24 16:59:02,801 - DEBUG - Response sent back to client
+2025-04-24 16:59:29,015 - DEBUG - User speech input: I have worked on Python pretty much.
+2025-04-24 16:59:29,750 - DEBUG - User speech input: I am a bit proficient in Flask and some machine learning problems.
+2025-04-24 16:59:30,945 - DEBUG - Model response: {
+   "messages": [
+      {
+         "text": "Great, Python is a popular language. Can you tell me about a project you've worked on in Flask?",
+         "facialExpression": "smile",
+         "animation": "Talking_0"
+      }
+   ]
+}
+2025-04-24 16:59:32,200 - DEBUG - Audio file created: E:\Project\latest\backend\fastapi_app\models\audios\message_0.mp3
+2025-04-24 16:59:34,535 - DEBUG - Rhubarb processing completed successfully for message_0
+2025-04-24 16:59:34,535 - DEBUG - Rhubarb processing completed for message_0
+2025-04-24 16:59:34,549 - DEBUG - Response sent back to client
+2025-04-24 16:59:43,343 - DEBUG - User speech input: I am currently
+2025-04-24 16:59:47,315 - DEBUG - User speech input: working on an interview based project, that
+2025-04-24 16:59:50,875 - DEBUG - User speech input: a backend made in Flask.
+2025-04-24 16:59:53,363 - DEBUG - Model response: {
+   "messages": [
+      {
+         "text": "That sounds like an interesting project! Can you tell me more about the specific requirements and challenges you're facing?",
+         "facialExpression": "default",
+         "animation": "Talking_0"
+      }
+   ]
+}
+2025-04-24 16:59:57,917 - DEBUG - Audio file created: E:\Project\latest\backend\fastapi_app\models\audios\message_0.mp3
+2025-04-24 17:00:00,633 - DEBUG - Rhubarb processing completed successfully for message_0
+2025-04-24 17:00:00,633 - DEBUG - Rhubarb processing completed for message_0
+2025-04-24 17:00:00,640 - DEBUG - Response sent back to client

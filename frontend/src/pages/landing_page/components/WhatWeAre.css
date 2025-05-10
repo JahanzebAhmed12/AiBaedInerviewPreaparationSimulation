@@ -1,0 +1,95 @@
+/* What We Are Section */
+#what-we-are {
+  padding: 60px 0;
+  background-color: #fff;
+}
+
+/* Content Wrapper */
+#what-we-are .content-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+/* Image Container */
+#what-we-are .image-container {
+  flex: 1;
+  min-width: 300px;
+  height: 500px;
+  background: url('/public/bot_laptop.png') no-repeat center center/cover;
+}
+
+/* Text Container */
+#what-we-are .text-container {
+  flex: 2;
+  min-width: 300px;
+}
+
+/* Section Heading */
+#what-we-are h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Section Paragraph */
+#what-we-are p {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  #what-we-are h2 {
+    font-size: 32px; /* Adjust heading size */
+  }
+
+  #what-we-are .content-wrapper {
+    gap: 20px; /* Reduce gap for smaller screens */
+  }
+
+  #what-we-are .image-container {
+    height: 400px; /* Adjust height of image container */
+  }
+
+  #what-we-are .text-container {
+    font-size: 16px; /* Adjust text size */
+  }
+}
+
+@media (max-width: 768px) {
+  #what-we-are h2 {
+    font-size: 28px; /* Adjust heading size */
+  }
+
+  #what-we-are .image-container {
+    height: 300px; /* Adjust height of image container */
+  }
+
+  #what-we-are .text-container {
+    font-size: 14px; /* Reduce text size */
+  }
+
+  #what-we-are .content-wrapper {
+    flex-direction: column; /* Stack image and text on top of each other */
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  #what-we-are h2 {
+    font-size: 24px; /* Further reduce heading size */
+  }
+
+  #what-we-are .image-container {
+    height: 250px; /* Adjust image height for mobile */
+  }
+
+  #what-we-are .text-container {
+    font-size: 12px; /* Further reduce text size */
+  }
+}

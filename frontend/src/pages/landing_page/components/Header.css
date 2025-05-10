@@ -1,0 +1,144 @@
+/* Header Section */
+.header-section {
+  background: transparent;
+  box-shadow: none;
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Container for header content */
+.header-section .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+}
+
+/* Navigation buttons styles */
+.nav-button {
+  font-family: 'Oswald', sans-serif;
+  font-size: 16px;
+  color: #fff;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+
+}
+
+.header-section nav ul {
+  display: flex;
+  list-style: none;
+ margin-left: -20px;
+  padding: 0;
+  
+}
+
+.header-section nav ul li {
+  margin: 0 15px;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 1px;
+}
+
+.nav-button:hover {
+  color: #ffc107;
+}
+
+/* Auth buttons container */
+.auth-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+/* Auth button link styles */
+.auth-buttons a {
+  padding: 3px 15px;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  border: 2px solid #5476db;
+}
+
+/* Login Button - Orange */
+.auth-buttons .login {
+  background-color: #ff9800;
+  color: #fff;
+  padding: 10px 15px;
+  font-size: 100%;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  text-shadow: 2px 1px 2px rgba(0, 0, 0, 0.7);
+  border: none;
+}
+
+.auth-buttons .login:hover {
+  background-color: #ffc107;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .header-section .container {
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the left */
+    padding: 10px 20px;
+  }
+
+  .header-section nav ul {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .header-section nav ul li {
+    margin: 0;
+  }
+
+  .auth-buttons {
+    margin-top: 10px;
+    gap: 5px;
+    justify-content: flex-start;
+  }
+
+  .auth-buttons a {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  .auth-buttons .login {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-section .container {
+    padding: 5px 15px;
+  }
+
+  .nav-button {
+    font-size: 14px;
+  }
+
+  .auth-buttons a {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+
+  .auth-buttons .login {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+}

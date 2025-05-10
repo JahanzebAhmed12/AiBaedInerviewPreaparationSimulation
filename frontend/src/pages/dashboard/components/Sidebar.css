@@ -1,0 +1,70 @@
+/* Sidebar Styles */
+.sidebar {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 250px;
+  height: calc(100% - 70px);
+  background-color: #002b36; /* Dark gradient background */
+  color: #ecf0f1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 30px;
+  transition: width 0.3s ease;
+  overflow: auto;
+}
+
+.sidebar a {
+  padding: 15px 30px;
+  text-decoration: none;
+  color: #ecf0f1;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  transition: background 0.3s ease, padding-left 0.3s ease;
+}
+
+.sidebar a .link-text {
+  margin-left: 15px;
+}
+
+.sidebar a:hover, .sidebar a.active {
+  background: #1abc9c;
+  padding-left: 35px;
+}
+
+.sidebar a i {
+  font-size: 18px;
+}
+
+/* Media Queries for Responsiveness */
+
+/* For smaller screens (Tablets) */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px; /* Reduce the width for tablets */
+  }
+
+  .sidebar a {
+    font-size: 14px; /* Adjust font size for better readability */
+    padding: 12px 20px; /* Reduce padding */
+  }
+}
+
+/* For very small screens (Phones) */
+@media (max-width: 480px) {
+  .sidebar {
+    width: 100%; /* Take full width on mobile devices */
+    height: auto; /* Allow it to fit the screen height */
+    padding-top: 20px; /* Reduce padding at the top */
+  }
+
+  .sidebar a {
+    font-size: 14px; /* Adjust font size */
+    padding: 10px 15px; /* Reduce padding */
+  }
+
+  .sidebar a .link-text {
+    margin-left: 10px; /* Reduce margin */
+  }
+}

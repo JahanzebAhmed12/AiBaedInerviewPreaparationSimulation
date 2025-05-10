@@ -1,0 +1,101 @@
+.start-interview-section form {
+    background: #ffffff;
+    border: 1px solid  #003441;
+    padding: 60px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin-top: 70px;
+    margin-left: 80px;
+}
+
+.start-interview-section .form-group {
+    margin-bottom: 20px;
+}
+
+.start-interview-section form label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color:  #003441;
+    display: flex;
+    align-items: center;
+}
+
+.start-interview-section form label i {
+    margin-right: 8px;
+    color: #1abc9c;
+}
+
+.start-interview-section form input {
+    width: 100%;
+    padding: 10px 5px;
+    border: 1px solid  #003441;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border 0.3s ease;
+}
+
+.start-interview-section form input:focus {
+    border-color: #1abc9c;
+    outline: none;
+}
+
+.start-interview-section form button {
+    padding: 12px 25px;
+    background: #1abc9c;
+    border: none;
+    border-radius: 30px;
+    border: 1px solid  #003441;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    transition: background 0.3s ease;
+}
+
+.start-interview-section .s-interview-icons {
+    margin-right: 8px;
+}
+
+.start-interview-section form button:hover {
+    background: #16a085;
+}
+
+.start-interview-section h2 {
+    margin-left: -260px; /* Adjusted scope */
+}
+
+/* Media Queries for Responsiveness */
+
+/* For smaller screens (Tablets) */
+@media (max-width: 768px) {
+    .start-interview-section form {
+        margin-left: 20px; /* Reduce the left margin */
+        padding: 40px; /* Adjust padding for smaller screens */
+        max-width: 90%; /* Allow the form to take more width on smaller screens */
+    }
+
+    .start-interview-section h2 {
+        margin-left: 0; /* Adjust heading margin */
+    }
+}
+
+/* For very small screens (Phones) */
+@media (max-width: 480px) {
+    .start-interview-section form {
+        margin-left: 10px; /* Further reduce margin for mobile */
+        padding: 30px; /* Further reduce padding */
+        max-width: 95%; /* Max width set to 95% */
+    }
+
+    .start-interview-section form input {
+        font-size: 14px; /* Reduce font size for input fields */
+    }
+
+    .start-interview-section form button {
+        font-size: 14px; /* Reduce button font size */
+        padding: 10px 20px; /* Adjust button padding */
+    }
+}

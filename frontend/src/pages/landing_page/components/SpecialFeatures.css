@@ -1,0 +1,128 @@
+/* Special Features Section */
+#special {
+  padding: 50px 0;
+  background-color: #fff;
+  text-align: center;
+}
+
+/* Section Heading */
+#special h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Description under the heading */
+.special-description {
+  font-size: 18px;
+  color: #555;
+  max-width: 800px;
+  margin: 0 auto 40px auto;
+  line-height: 1.6;
+}
+
+/* Feature Grid Layout */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px; /* Gap between feature boxes */
+  padding: 0 5%; /* Adds padding on sides for smaller screens */
+}
+
+/* Feature Box Styling */
+.feature-box {
+  background-color: #f0f0f0;
+  padding: 20px 10px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+  cursor: pointer;
+  margin-left: 35px;
+}
+
+/* Hover Effect for Feature Box */
+.feature-box:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  background-color: #e0e0e0;
+}
+
+/* Feature Box Title */
+.feature-box h3 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 26px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* Feature Box Description */
+.feature-box p {
+  font-size: 16px;
+  color: #666;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  #special h2 {
+    font-size: 32px; /* Adjust heading size */
+  }
+
+  .special-description {
+    font-size: 16px; /* Slightly smaller description text */
+  }
+
+  .feature-box h3 {
+    font-size: 24px; /* Reduce title size */
+  }
+
+  .feature-box p {
+    font-size: 14px; /* Reduce description text size */
+  }
+}
+
+@media (max-width: 768px) {
+  #special h2 {
+    font-size: 28px;
+  }
+
+  .special-description {
+    font-size: 14px;
+    padding: 0 10px; /* Add padding for narrow screens */
+  }
+
+  .feature-box {
+    padding: 15px 8px; /* Reduce padding in feature boxes */
+  }
+
+  .feature-box h3 {
+    font-size: 22px;
+  }
+
+  .feature-box p {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  #special h2 {
+    font-size: 24px;
+  }
+
+  .special-description {
+    font-size: 14px;
+  }
+
+  .feature-box {
+    padding: 10px 5px;
+  }
+
+  .feature-box h3 {
+    font-size: 20px;
+  }
+
+  .feature-box p {
+    font-size: 12px;
+  }
+}

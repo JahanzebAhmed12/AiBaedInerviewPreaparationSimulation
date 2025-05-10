@@ -1,0 +1,82 @@
+/* Profile Popup Styles */
+.profile-popup {
+  position: fixed;
+  top: 34%;
+  left: 90%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 320px;
+  z-index: 1000;
+}
+
+.popup-content {
+  position: relative;
+  text-align: center;
+}
+ 
+.logout-btn {
+  background-color: #ff4d4d;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.logout-btn:hover {
+  background-color: #ff3333;
+}
+
+.profile-popup h1 {
+  color: #003441;
+  font-weight: bold;
+}
+
+.profile-popup p {
+  color: #003441;
+}
+
+/* Media Queries for Responsiveness */
+
+/* For tablets and smaller screens */
+@media (max-width: 768px) {
+  .profile-popup {
+      top: 25%; /* Adjust position for smaller screens */
+      left: 50%;
+      transform: translateX(-50%); /* Center the popup */
+      width: 250px; /* Adjust the width */
+      padding: 15px; /* Reduce padding */
+  }
+
+  .logout-btn {
+      font-size: 0.9em; /* Adjust button font size */
+      padding: 8px 18px; /* Adjust button padding */
+  }
+
+  .profile-popup h1 {
+      font-size: 22px; /* Reduce the font size for the header */
+  }
+}
+
+/* For very small screens (phones in portrait mode) */
+@media (max-width: 480px) {
+  .profile-popup {
+      top: 20%; /* Adjust position further */
+      width: 220px; /* Reduce width */
+      padding: 10px; /* Further reduce padding */
+  }
+
+  .logout-btn {
+      font-size: 0.85em; /* Further adjust button font size */
+      padding: 6px 16px; /* Further reduce button padding */
+  }
+
+  .profile-popup h1 {
+      font-size: 18px; /* Further reduce font size */
+  }
+}

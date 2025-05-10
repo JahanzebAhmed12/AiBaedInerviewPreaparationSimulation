@@ -1,0 +1,146 @@
+/* Dashboard container */
+.dashboard-container {
+    display: flex;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Dashboard main content */
+.dashboard-container main {
+    flex: 1;
+    padding: 20px;
+}
+
+/* Dashboard cards */
+.dashboard-container .dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+    margin-left: -250px; /* Adjust the value to the space you want */
+}
+
+/* Individual card styling */
+.dashboard-container .card {
+    background: rgb(255, 255, 255); /* Semi-transparent background */
+    border: 1px solid  #003441;
+    padding: 5px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.graph-section {
+    margin-top: 40px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    border: 1px solid  #003441;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: -250px; 
+}
+
+.graph-section canvas {
+    max-width: 400px;
+    max-height: 280px;
+}
+
+.dashboard-container .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* Card icon styling */
+.dashboard-container .card-icon {
+    font-size: 36px;
+    color:    #003441; /* Dark gradient background */
+    margin-right: 20px;
+    margin-bottom: 5px;
+}
+
+/* Card content */
+.dashboard-container .card-content h3 {
+    font-size: 18px;
+    color: #003441;
+}
+
+.dashboard-container .card-content p {
+    font-size: 20px;
+    font-weight: 700;
+    color:  #003441;
+    margin-top: -20px; /* Move the text upward */
+    margin-bottom: 0; /* Reset bottom margin */
+}
+
+/* Section heading */
+.dashboard-container h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color:  #003441;
+    margin-left: -250px;
+    margin-top: 5%;
+}
+
+/* Media Queries for Responsiveness */
+
+/* For tablets and smaller screens */
+@media (max-width: 768px) {
+    .dashboard-container .dashboard-cards {
+        margin-left: 0; /* Adjust left margin for smaller screens */
+    }
+
+    .dashboard-container h2 {
+        margin-left: 0; /* Remove left margin on h2 for smaller screens */
+        font-size: 24px; /* Slightly smaller heading */
+    }
+
+    .dashboard-container .card {
+        padding: 12px; /* Reduced padding for cards */
+    }
+
+    .dashboard-container .card-icon {
+        font-size: 30px; /* Smaller icons for smaller screens */
+        margin-right: 15px;
+    }
+
+    .dashboard-container .card-content h3 {
+        font-size: 16px; /* Adjust heading size for smaller screens */
+    }
+
+    .dashboard-container .card-content p {
+        font-size: 24px; /* Adjust text size for smaller screens */
+    }
+}
+
+/* For very small screens (phones in portrait mode) */
+@media (max-width: 480px) {
+    .dashboard-container .dashboard-cards {
+        margin-left: 0; /* Remove left margin for small screens */
+    }
+
+    .dashboard-container h2 {
+        font-size: 20px; /* Further reduce font size of heading */
+        margin-left: 0; /* Center heading */
+    }
+
+    .dashboard-container .card {
+        padding: 10px; /* Reduce padding for cards */
+    }
+
+    .dashboard-container .card-icon {
+        font-size: 24px; /* Smaller icons for very small screens */
+        margin-right: 10px;
+    }
+
+    .dashboard-container .card-content h3 {
+        font-size: 14px; /* Further reduce text size */
+    }
+
+    .dashboard-container .card-content p {
+        font-size: 20px; /* Adjust text size for small screens */
+    }
+}

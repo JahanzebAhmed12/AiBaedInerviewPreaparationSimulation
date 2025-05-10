@@ -1,0 +1,177 @@
+/* Styling specific to the Form page */
+.form-page {
+  font-family: 'Roboto', sans-serif;
+  background-color: #002b36; 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+ 
+  display: flex; /* Enable flexbox for centering */
+  flex-direction: column; /* Vertically align the content */
+  justify-content: center; /* Center the content vertically */
+  align-items: center; /* Center the content horizontally */
+}
+/* Full-page background gradient and image */
+/* Form container */
+.form-container {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
+  padding: 40px;
+  background-color: #031d23; /* Semi-transparent white */
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(12px); /* Apply blur effect for a glossy feel */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(1); /* Initial scale */
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards; /* Animation to show form */
+}
+
+/* Animation for form fade-in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Form container */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
+}
+
+/* Form group styling */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Label styling */
+.form-group label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+/* Input field styling */
+.form-group input,
+.form-group select {
+  padding: 15px;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+  background-color: #f7f7f7;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+/* Input field hover effect */
+.form-group input:hover,
+.form-group select:hover {
+  border-color: #1abc9c;
+}
+
+/* Input field focus effect */
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #1abc9c;
+  outline: none;
+  transform: translateY(-4px); /* Field lifts up on focus */
+}
+
+/* Dropdown placeholder color */
+.form-group select option {
+  color: #333;
+}
+
+/* Dropdown styling for placeholder */
+.form-group select:focus option[value=""] {
+  color: #aaa; /* Placeholder color when dropdown is open */
+}
+
+/* Icon inside the input field (add icons to the input) */
+.form-group input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+.form-group input:focus::placeholder {
+  color: #1abc9c;
+}
+
+/* Dropdown styling for the caret arrow */
+.form-group select {
+  appearance: none; /* Removes default arrow in modern browsers */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%231abc9c' d='M10 12l-6-6h12l-6 6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+/* To make the dropdown styling consistent across browsers */
+select::-ms-expand {
+  display: none; /* Hides default arrow in Internet Explorer */
+}
+
+/* Ensure smoothness in transitions */
+.form-group select:focus {
+  outline: none;
+}
+
+/* Button styling */
+.submit-btn {
+  padding: 15px;
+  background-color: #1abc9c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Button hover effect */
+.submit-btn:hover {
+  background-color:  #00ffcc;
+  transform: translateY(-4px); /* Button lifts on hover */
+}
+
+/* Smooth shadow effect on hover */
+.form-group input:hover,
+.submit-btn:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Heading inside form container */
+.form-heading {
+  color: #ffffff; /* White color for the heading */
+  font-size: 2rem; /* Size of the heading */
+  font-weight: 700; /* Make the heading bold */
+  margin-bottom: 20px; /* Space below the heading */
+  text-align: center; /* Center the heading */
+  width: 100%; /* Make sure it spans the full width of the container */
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+  .form-container {
+    width: 90%; /* Allow form to take more width on smaller screens */
+    padding: 20px; /* Less padding for smaller screens */
+  }
+}

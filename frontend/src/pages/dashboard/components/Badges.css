@@ -1,0 +1,100 @@
+/* Badges Section Styles */
+.badges-section {
+    padding: 20px;
+}
+.badges-section .badge:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+.badges-section .badges-heading {
+    font-size: 28px;
+    color:  #003441;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    margin-left: -270px;
+    margin-top: 3%;
+}
+
+.badges-section .icon-wrapper {
+    margin-right: 10px;
+    color: #003441;
+}
+
+.badges-section .badges-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two badges per row */
+    gap: 20px;
+    margin-left: -270px;
+}
+
+.badges-section .badge {
+    background: #ffffff;
+    border: 1px solid  #003441;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.badges-section .badge-icon {
+    font-size: 36px;
+    color: #1abc9c;
+    margin-right: 15px;
+}
+
+.badges-section .badge-details h3 {
+    font-size: 18px;
+    color: #003441;
+    margin: 0;
+}
+
+.badges-section .badge-details p {
+    font-size: 14px;
+    color: #606c6d;
+    margin: 5px 0 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .badges-section .badges-heading {
+        margin-left: -200px;
+    }
+    .badges-section .badges-container {
+        grid-template-columns: 1fr; /* One badge per row */
+        margin-left: -200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .badges-section .badges-heading {
+        font-size: 24px;
+        margin-left: 0;
+        margin-top: 2%;
+    }
+    .badges-section .badges-container {
+        grid-template-columns: 1fr; /* One badge per row */
+        margin-left: 0;
+    }
+    .badges-section .badge {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .badges-section .badge-icon {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .badges-section .badges-heading {
+        font-size: 20px;
+    }
+    .badges-section .badge-details h3 {
+        font-size: 16px;
+    }
+    .badges-section .badge-details p {
+        font-size: 12px;
+    }
+}

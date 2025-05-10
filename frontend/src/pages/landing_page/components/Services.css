@@ -1,0 +1,139 @@
+/* Services Section */
+#services {
+  padding: 50px 0;
+  background-color: #f9f9f9;
+  text-align: center;
+ 
+}
+
+/* Section Heading */
+#services h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Description under the heading */
+.services-description {
+  font-size: 18px;
+  color: #555;
+  max-width: 800px;
+  margin: 0 auto 40px auto;
+  line-height: 1.6;
+}
+
+/* Service Grid Layout */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-left: 3%;
+  margin-right: 3%; /* Added right margin for symmetry */
+}
+
+/* Individual Service Card */
+.service {
+  background-color: #fff;
+  padding: 10px 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  margin-left: 35px;
+}
+
+/* Hover Effect for Service */
+.service:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Service Image Styling */
+.service img {
+  max-width: 80px;
+  margin-bottom: 20px;
+  transition: transform 0.3s;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Hover Effect on Service Image */
+.service:hover img {
+  transform: scale(1.1);
+}
+
+/* Service Title Styling */
+.service h3 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* Service Description Styling */
+.service p {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  #services h2 {
+    font-size: 32px; /* Slightly smaller heading */
+  }
+
+  .services-description {
+    font-size: 16px;
+    padding: 0 10px; /* Add padding for smaller screens */
+  }
+
+  .service-grid {
+    gap: 20px; /* Reduce spacing between cards */
+  }
+}
+
+@media (max-width: 768px) {
+  #services h2 {
+    font-size: 28px;
+  }
+
+  .services-description {
+    font-size: 14px;
+  }
+
+  .service h3 {
+    font-size: 20px;
+  }
+
+  .service p {
+    font-size: 14px;
+  }
+
+  .service img {
+    max-width: 70px; /* Slightly smaller images */
+  }
+}
+
+@media (max-width: 480px) {
+  #services h2 {
+    font-size: 24px;
+  }
+
+  .services-description {
+    font-size: 14px;
+  }
+
+  .service h3 {
+    font-size: 18px;
+  }
+
+  .service p {
+    font-size: 12px;
+  }
+
+  .service img {
+    max-width: 60px;
+  }
+}

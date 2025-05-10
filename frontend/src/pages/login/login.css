@@ -1,0 +1,78 @@
+/* Global Styles */
+.loginBody {
+  font-family: 'Roboto', sans-serif;
+  background-color: #002b36; /* Dark gradient background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  color: #ecf0f1; /* Ensure text is readable */
+  text-align: center;
+}
+
+/* Container for login form */
+.loginContainer {
+  display: flex;
+  background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(52, 73, 94, 0.8));
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 80%;
+  height: 80%;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Add box shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+}
+
+/* Hover effect for container */
+.loginContainer:hover {
+  transform: translateY(-10px); /* Slight lift on hover */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4); /* Enhanced shadow on hover */
+}
+
+/* Image Section */
+.loginImage {
+  flex: 1;
+  background-image: url('/public/bot.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.loginForm {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background: rgba(44, 62, 80, 0.9); /* Semi-transparent background for the form */
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add box shadow */
+}
+
+/* Mobile Optimization: Ensure the image fits on smaller screens */
+@media (max-width: 768px) {
+  .loginBody {
+    flex-direction: column; /* Stack the image and form vertically on smaller screens */
+    padding: 1rem; /* Add padding for better spacing */
+  }
+
+  .loginContainer {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+  }
+
+  .loginImage {
+    height: 200px; /* Adjust height for smaller screens */
+  }
+
+  .loginForm {
+    width: 100%;
+    padding: 1rem;
+  }
+}

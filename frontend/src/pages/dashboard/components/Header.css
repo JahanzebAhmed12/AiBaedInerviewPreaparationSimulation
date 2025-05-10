@@ -1,0 +1,119 @@
+/* Header.css */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background-color: #002b36; /* Dark gradient background */
+  color: #ecf0f1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+header .logo {
+  display: flex;
+  align-items: center;
+}
+
+header .logo_picture {
+  font-size: 48px;
+  margin-right: 15px;
+  color: #1abc9c;
+}
+
+header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ecf0f1;
+}
+
+.profile-btn {
+  padding: 10px 20px;
+  background: #e74c3c;
+  border: none;
+  border-radius: 30px;
+  color: #ecf0f1;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  transition: background 0.3s ease;
+}
+
+.profile-pic {
+  margin-right: 8px;
+}
+
+.profile-btn:hover {
+  background: #c0392b;
+}
+
+/* Additional CSS for ProfilePopup (if needed) */
+.profile-popup {
+  position: absolute;  /* Positioning relative to the header */
+  top: 80px;  /* Adjust as necessary based on your header height */
+  right: 30px;  /* Align to the right of the header */
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 999;  /* Ensure it's above other content */
+}
+
+/* Media Queries for Responsiveness */
+
+/* For tablets and smaller screens */
+@media (max-width: 768px) {
+  header {
+      padding: 0 15px; /* Reduced padding for smaller screens */
+      height: 60px; /* Reduce header height on smaller screens */
+  }
+
+  header .logo_picture {
+      font-size: 36px; /* Smaller logo for smaller screens */
+  }
+
+  header h1 {
+      font-size: 18px; /* Adjust font size for h1 */
+  }
+
+  .profile-btn {
+      padding: 8px 16px; /* Adjust button padding */
+      font-size: 12px; /* Smaller font size for profile button */
+  }
+
+  .profile-popup {
+      top: 70px;  /* Adjust popup position */
+      right: 20px; /* Adjust popup position */
+  }
+}
+
+/* For very small screens (phones in portrait mode) */
+@media (max-width: 480px) {
+  header {
+      padding: 0 10px; /* Further reduce padding */
+      height: 50px; /* Further reduce header height */
+  }
+
+  header .logo_picture {
+      font-size: 28px; /* Further reduce logo size */
+  }
+
+  header h1 {
+      font-size: 16px; /* Further reduce font size for h1 */
+  }
+
+  .profile-btn {
+      padding: 6px 14px; /* Adjust button padding */
+      font-size: 10px; /* Further reduce button font size */
+  }
+
+  .profile-popup {
+      top: 60px;  /* Further adjust popup position */
+      right: 10px; /* Further adjust popup position */
+  }
+}

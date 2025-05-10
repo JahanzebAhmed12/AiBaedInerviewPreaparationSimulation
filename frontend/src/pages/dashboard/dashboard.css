@@ -1,0 +1,27 @@
+/* Main section layout */
+main {
+  flex: 1;
+  padding-top: 70px; /* To account for the fixed header */
+  margin-left: 250px; /* To account for the fixed sidebar */
+  padding: 30px;
+  background-color: #f2f2f2;
+  min-height: calc(100vh - 60px); /* To account for full height minus header */
+}
+
+/* Media Queries for Responsiveness */
+
+/* For smaller screens (Tablets) */
+@media (max-width: 768px) {
+  main {
+    margin-left: 200px; /* Adjust margin for smaller screens */
+    padding: 20px; /* Adjust padding for smaller screens */
+  }
+}
+
+/* For very small screens (Phones) */
+@media (max-width: 480px) {
+  main {
+    margin-left: 0; /* Remove margin for very small screens */
+    padding: 15px; /* Further reduce padding */
+  }
+}
