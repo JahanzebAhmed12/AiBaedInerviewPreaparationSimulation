@@ -79,7 +79,7 @@ class SpeechToTextHandler:
 
 1. Interview Flow:
    - Greet briefly, ask name and expertise in {interview_field}
-   - Ask 5 balanced questions specific to {interview_field} (mix of simple/technical)
+   - Ask 5 balanced questions specific to {interview_field} (mix of simple/technical) one at a time
    - Keep responses 1-2 lines max but complete the question
    - After completing all questions, generate a structured report with:
      * SCORE: Overall performance score (0-100)
@@ -329,14 +329,7 @@ Never include text outside JSON structure."""
                 if not isinstance(response, dict) or "messages" not in response:
                     raise ValueError("Invalid response format")
                 
-                # Extract all messages and combine their text
-                full_report = ""
-                for message in response["messages"]:
-                    if "text" in message:
-                        full_report += message["text"] + "\n"
-                
-                # Parse the combined report text
-                lines = full_report.split('\n')
+                # Initialize report data structure
                 report_data = {
                     'SCORE': 0,
                     'STRENGTHS': [],
@@ -345,55 +338,77 @@ Never include text outside JSON structure."""
                     'CONCLUSION': "Thank you for completing the interview."
                 }
                 
-                current_section = None
-                for line in lines:
-                    line = line.strip()
-                    if not line:
-                        continue
+                # Extract all messages and combine their text
+                full_report = ""
+                for message in response["messages"]:
+                    if isinstance(message, dict) and "text" in message:
+                        text_content = message["text"]
+                        if isinstance(text_content, dict):
+                            # If text is a dictionary, it's already in the correct format
+                            report_data = text_content
+                            break  # We found our structured data, no need to parse further
+                        else:
+                            full_report += str(text_content) + "\n"
+                    elif isinstance(message, str):
+                        full_report += message + "\n"
+                    else:
+                        print(f"\n[WARNING] Skipping invalid message format: {message}")
+                
+                # Only parse the text if we didn't get structured data directly
+                if not any(report_data.values()):  # Check if we need to parse the text
+                    # Parse the combined report text
+                    lines = full_report.split('\n')
+                    current_section = None
                     
-                    # Extract score
-                    if line.startswith('SCORE:'):
-                        try:
-                            score_text = line.replace('SCORE:', '').strip()
-                            report_data['SCORE'] = int(''.join(filter(str.isdigit, score_text)))
-                        except ValueError:
-                            report_data['SCORE'] = 0
-                    
-                    # Extract strengths
-                    elif line.startswith('STRENGTHS:'):
-                        current_section = 'STRENGTHS'
-                        content = line.replace('STRENGTHS:', '').strip()
-                        if content:
-                            # Split by commas and clean up each item
-                            items = [item.strip() for item in content.split(',')]
-                            report_data['STRENGTHS'] = items
-                    
-                    # Extract weaknesses
-                    elif line.startswith('WEAKNESSES:'):
-                        current_section = 'WEAKNESSES'
-                        content = line.replace('WEAKNESSES:', '').strip()
-                        if content:
-                            # Split by commas and clean up each item
-                            items = [item.strip() for item in content.split(',')]
-                            report_data['WEAKNESSES'] = items
-                    
-                    # Extract areas to improve
-                    elif line.startswith('AREAS TO IMPROVE:'):
-                        current_section = 'AREAS TO IMPROVE'
-                        content = line.replace('AREAS TO IMPROVE:', '').strip()
-                        if content:
-                            # Split by commas and clean up each item
-                            items = [item.strip() for item in content.split(',')]
-                            report_data['AREAS TO IMPROVE'] = items
-                    
-                    # Extract conclusion
-                    elif line.startswith('CONCLUSION:'):
-                        report_data['CONCLUSION'] = line.replace('CONCLUSION:', '').strip()
+                    for line in lines:
+                        line = line.strip()
+                        if not line:
+                            continue
+                        
+                        # Extract score
+                        if line.startswith('SCORE:'):
+                            try:
+                                score_text = line.replace('SCORE:', '').strip()
+                                report_data['SCORE'] = int(''.join(filter(str.isdigit, score_text)))
+                            except ValueError:
+                                report_data['SCORE'] = 0
+                        
+                        # Extract strengths
+                        elif line.startswith('STRENGTHS:'):
+                            current_section = 'STRENGTHS'
+                            content = line.replace('STRENGTHS:', '').strip()
+                            if content:
+                                # Split by commas and clean up each item
+                                items = [item.strip() for item in content.split(',')]
+                                report_data['STRENGTHS'] = items
+                        
+                        # Extract weaknesses
+                        elif line.startswith('WEAKNESSES:'):
+                            current_section = 'WEAKNESSES'
+                            content = line.replace('WEAKNESSES:', '').strip()
+                            if content:
+                                # Split by commas and clean up each item
+                                items = [item.strip() for item in content.split(',')]
+                                report_data['WEAKNESSES'] = items
+                        
+                        # Extract areas to improve
+                        elif line.startswith('AREAS TO IMPROVE:'):
+                            current_section = 'AREAS TO IMPROVE'
+                            content = line.replace('AREAS TO IMPROVE:', '').strip()
+                            if content:
+                                # Split by commas and clean up each item
+                                items = [item.strip() for item in content.split(',')]
+                                report_data['AREAS TO IMPROVE'] = items
+                        
+                        # Extract conclusion
+                        elif line.startswith('CONCLUSION:'):
+                            report_data['CONCLUSION'] = line.replace('CONCLUSION:', '').strip()
                 
                 # Prepare feedback data for database
                 feedback_data = {
                     'user_id': int(self.user_id),
                     'interview_id': str(self.interview_id),
+                    'interview_field': self.interview_field if self.interview_field else "General",  # Provide default if None
                     'score': report_data['SCORE'],
                     'strengths': json.dumps(report_data['STRENGTHS']),
                     'weaknesses': json.dumps(report_data['WEAKNESSES']),

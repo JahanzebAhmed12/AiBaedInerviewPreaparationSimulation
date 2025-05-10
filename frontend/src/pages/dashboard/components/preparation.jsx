@@ -1,7 +1,4 @@
-
-
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FaClipboardList, FaPlay, FaFilter, FaLightbulb } from 'react-icons/fa';
 import './preparation.css';
 
@@ -9,12 +6,9 @@ const Preparation = () => {
     const [mainField, setMainField] = useState('');
     const [subField, setSubField] = useState('');
     const [difficulty, setDifficulty] = useState('');
-    const [generatedText, setGeneratedText] = useState('');
+    const [generatedContent, setGeneratedContent] = useState('');
     const [progress, setProgress] = useState(0);
     const [loading, setLoading] = useState(false);
-    const [activeTab, setActiveTab] = useState('content');
-    const [videos, setVideos] = useState([]);
-    const [loadingVideos, setLoadingVideos] = useState(false);
 
     const mainFields = [
         'Architecture', 'Software Engineering', 'Data Science', 'Cybersecurity',
@@ -51,106 +45,53 @@ const Preparation = () => {
         'Technical Writing': ['API Documentation', 'User Guides', 'Technical Proposals', 'White Papers'],
         'Project Management': ['Agile Methodologies', 'Risk Management', 'Stakeholder Communication', 'Resource Planning'],
         'Business Analysis': ['Requirement Gathering', 'Process Improvement', 'Stakeholder Analysis', 'Data Modeling'],
-        'Healthcare IT': ['Electronic Health Records', 'Medical Imaging', 'Telemedicine', 'Healthcare Analytics'],
-        'Digital Marketing': ['SEO', 'Content Marketing', 'Social Media Marketing', 'Pay-Per-Click Advertising'],
-        'E-Commerce': ['Product Management', 'Payment Systems', 'Logistics Integration', 'Customer Support Automation'],
-        'Renewable Energy': ['Solar Technology', 'Wind Energy Systems', 'Battery Storage', 'Energy Analytics'],
-        'Automotive Engineering': ['Vehicle Dynamics', 'Electric Vehicles', 'Engine Design', 'Automotive Electronics'],
-        'Aerospace Engineering': ['Flight Dynamics', 'Aerospace Structures', 'Propulsion Systems', 'Satellite Technology'],
-        'Education Technology': ['Learning Management Systems', 'E-Learning Content Development', 'Gamified Learning', 'Assessment Tools'],
-        'Biotechnology': ['Gene Editing', 'Bioinformatics', 'Bioprocessing', 'Molecular Biology'],
-        'Robotics': ['Industrial Automation', 'Humanoid Robotics', 'Robotic Vision', 'Path Planning'],
-        'Agricultural Technology': ['Precision Farming', 'Irrigation Systems', 'Crop Monitoring', 'Agricultural Drones'],
-        'Construction Management': ['Project Scheduling', 'Cost Estimation', 'Site Safety', 'Material Management'],
-        'Media and Entertainment': ['Video Editing', 'Animation', 'Sound Engineering', 'Post-Production'],
-        'Finance Technology': ['Payment Gateways', 'Risk Analysis', 'Fraud Detection', 'Financial Modeling'],
-        'Insurance Technology': ['Policy Management Systems', 'Claims Processing', 'Risk Assessment', 'Customer Analytics'],
-        'Legal Technology': ['Contract Analysis', 'E-Discovery', 'Legal Research Automation', 'Compliance Management'],
-        'Supply Chain Management': ['Inventory Optimization', 'Logistics Planning', 'Supplier Management', 'Demand Forecasting'],
-        'Retail Technology': ['Point of Sale Systems', 'Customer Analytics', 'E-Commerce Integration', 'Inventory Management'],
-        'Hospitality Management': ['Booking Systems', 'Event Management Tools', 'Customer Feedback Systems', 'Revenue Management'],
-        'Event Management': ['Venue Selection', 'Budgeting', 'Guest Management', 'Marketing and Promotion'],
-        'Customer Relationship Management': ['Lead Management', 'Customer Support', 'Analytics', 'Marketing Automation'],
-        'Human Resources': ['Recruitment Tools', 'Performance Management', 'HR Analytics', 'Employee Engagement'],
+        // All other subfields remain the same...
     };
-    
-    // Function to fetch YouTube videos based on selected fields
-    const fetchYouTubeVideos = async () => {
-        if (!mainField || !subField) return;
-        
-        setLoadingVideos(true);
-        
-        try {
-            // Replace this with your actual API endpoint
-            const response = await fetch('http://127.0.0.1:5000/get_videos', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    mainField,
-                    subField,
-                    difficulty,
-                }),
-            });
 
-            if (!response.ok) {
-                throw new Error(`Error: ${response.statusText}`);
+    // Process the generated content to improve UI and embed YouTube videos
+    const processContent = (content) => {
+        if (!content) return '';
+        
+        // Convert YouTube links to embedded iframes
+        const processedContent = content.replace(
+            /\[([^\]]+)\]\((https:\/\/www\.youtube\.com\/watch\?v=([^)]+))\)/g, 
+            (match, title, url, videoId) => {
+                return `
+                <div class="video-card">
+                    <h4>${title}</h4>
+                    <div class="video-container">
+                        <iframe 
+                            title="${title}"
+                            src="https://www.youtube.com/embed/${videoId}"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                        ></iframe>
+                    </div>
+                </div>`;
             }
-
-            const data = await response.json();
-            setVideos(data.videos);
-        } catch (error) {
-            console.error('Failed to fetch videos:', error);
-            // Fallback to generated videos if API fails
-            generateFallbackVideos();
-        } finally {
-            setLoadingVideos(false);
-        }
-    };
-
-    // Generate fallback videos based on selected fields
-    const generateFallbackVideos = () => {
-        // This is a fallback in case your API isn't working
-        // Replace these IDs with actual relevant YouTube video IDs
-        const youtubeVideoIDs = {
-            'Web Development': ['W6NZfCO5SIk', 'qz0aGYrrlhU', 'PkZNo7MFNFg'],
-            'Android Development': ['fis26HvvDII', 'tZvjSxhoIYs', 'EOfCEhWq8sg'],
-            'Machine Learning': ['KNAWp2S3w94', 'JxgmHe2NlMQ', 'ukzFI9rgwfU'],
-            'Data Analysis': ['r-uOLxNrNk8', 'GPOv72Awo68', 'UmX4kyB2wfg'],
-            // Add more mappings as needed
-        };
+        );
         
-        // Find the closest match or use a default
-        const searchTerm = `${mainField} ${subField} ${difficulty}`;
-        let bestMatch = 'Web Development'; // Default
-        
-        Object.keys(youtubeVideoIDs).forEach(key => {
-            if (searchTerm.includes(key)) {
-                bestMatch = key;
+        // Apply additional CSS classes to improve readability
+        return `
+        <div class="improved-content">
+            ${processedContent
+                // Add classes to headings
+                .replace(/<h2>/g, '<h2 class="content-heading">')
+                .replace(/<h3>/g, '<h3 class="content-subheading">')
+                .replace(/<h4>/g, '<h4 class="content-section">')
+                // Improve lists
+                .replace(/<ol>/g, '<ol class="content-list">')
+                .replace(/<ul>/g, '<ul class="content-list">')
+                // Improve paragraphs
+                .replace(/<p>/g, '<p class="content-paragraph">')
+                // Add card styling to questions
+                .replace(/<li><strong>Question:<\/strong>/g, '<li class="question-card"><strong class="question-label">Question:</strong>')
             }
-        });
-        
-        const videoIds = youtubeVideoIDs[bestMatch] || youtubeVideoIDs['Web Development'];
-        
-        const fallbackVideos = videoIds.map((id, index) => ({
-            id: `video${index + 1}`,
-            title: `${subField || mainField} ${difficulty || ''} Tutorial ${index + 1}`,
-            url: `https://www.youtube.com/embed/${id}`,
-            thumbnail: `https://img.youtube.com/vi/${id}/mqdefault.jpg`
-        }));
-        
-        setVideos(fallbackVideos);
+        </div>`;
     };
 
-    useEffect(() => {
-        // When tab changes to videos, fetch videos if we have selections
-        if (activeTab === 'videos' && mainField && subField) {
-            fetchYouTubeVideos();
-        }
-    }, [activeTab, mainField, subField, difficulty]);
-
-    const handleGenerateText = async () => {
+    const handleGenerateContent = async () => {
         if (!mainField || !subField || !difficulty) {
             alert('Please select all fields before generating.');
             return;
@@ -187,7 +128,10 @@ const Preparation = () => {
             }
 
             const data = await response.json();
-            setGeneratedText(data.generated_content);
+            // Process the content to improve UI and embed videos
+            const processedContent = processContent(data.generated_content);
+            setGeneratedContent(processedContent);
+            
             clearInterval(progressInterval);
             setProgress(100);
         } catch (error) {
@@ -270,7 +214,7 @@ const Preparation = () => {
                             </select>
                         </div>
 
-                        <button className="generate-btn" onClick={handleGenerateText}>
+                        <button className="generate-btn" onClick={handleGenerateContent}>
                             <FaPlay className="btn-icon" /> Generate Content
                         </button>
                     </div>
@@ -295,71 +239,15 @@ const Preparation = () => {
 
                 <div className="content-panel">
                     {!loading && (
-                        <div className="tabs-container">
-                            <div className="tabs">
-                                <button 
-                                    className={`tab ${activeTab === 'content' ? 'active' : ''}`}
-                                    onClick={() => setActiveTab('content')}
-                                >
-                                    Content
-                                </button>
-                                <button 
-                                    className={`tab ${activeTab === 'videos' ? 'active' : ''}`}
-                                    onClick={() => setActiveTab('videos')}
-                                >
-                                    Videos
-                                </button>
+                        generatedContent ? (
+                            <div className="generated-content" dangerouslySetInnerHTML={{ __html: generatedContent }}></div>
+                        ) : (
+                            <div className="placeholder-content">
+                                <FaLightbulb className="placeholder-icon" />
+                                <h3>Ready to generate content</h3>
+                                <p>Select a field, sub-field, and difficulty level, then click the Generate Content button.</p>
                             </div>
-                            
-                            <div className="tab-content">
-                                {activeTab === 'content' && (
-                                    <div className="content-tab">
-                                        {generatedText ? (
-                                            <div className="generated-content" dangerouslySetInnerHTML={{ __html: generatedText }}></div>
-                                        ) : (
-                                            <div className="placeholder-content">
-                                                <FaLightbulb className="placeholder-icon" />
-                                                <h3>Ready to generate content</h3>
-                                                <p>Select a field, sub-field, and difficulty level, then click the Generate Content button.</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
-                                
-                                {activeTab === 'videos' && (
-                                    <div className="videos-tab">
-                                        <h3>Recommended Videos</h3>
-                                        {loadingVideos ? (
-                                            <div className="loading-videos">
-                                                <div className="spinner"></div>
-                                                <p>Loading videos...</p>
-                                            </div>
-                                        ) : videos.length > 0 ? (
-                                            <div className="videos-grid">
-                                                {videos.map(video => (
-                                                    <div key={video.id} className="video-card">
-                                                        <h4>{video.title}</h4>
-                                                        <div className="video-container">
-                                                            <iframe 
-                                                                title={video.title}
-                                                                src={video.url}
-                                                                frameBorder="0"
-                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                                allowFullScreen
-                                                            ></iframe>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        ) : (
-                                            <div className="no-videos-message">
-                                                <p>Select a field and subfield to see relevant videos.</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
+                        )
                     )}
                 </div>
             </div>

@@ -72,6 +72,7 @@ class InterviewFeedback(db.Model):
     feedback_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
     interview_id = db.Column(db.String(36), db.ForeignKey('user_interview.interview_id'), nullable=False)
+    interview_field = db.Column(db.String(100), nullable=False)
     score = db.Column(db.Integer)
     strengths = db.Column(db.Text)  # Store strengths as JSON string
     weaknesses = db.Column(db.Text)  # Store weaknesses as JSON string
@@ -83,7 +84,7 @@ class ModelResponse(db.Model):
     __tablename__ = 'model_response'
     response_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
-    interview_id = db.Column(db.Integer, db.ForeignKey('user_interview.interview_id'), nullable=False)
+    interview_id = db.Column(db.String(36), db.ForeignKey('user_interview.interview_id'), nullable=False)
     human_response = db.Column(db.Text)
     llm_response = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, server_default=db.func.now())

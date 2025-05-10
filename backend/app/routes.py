@@ -218,7 +218,7 @@ def save_feedback():
         print("\n[DEBUG] Received feedback data:", json.dumps(data, indent=2))
         
         # Validate required fields
-        required_fields = ['user_id', 'interview_id', 'score', 'strengths', 'weaknesses', 'areas_to_improve', 'feedback_text']
+        required_fields = ['user_id', 'interview_id', 'interview_field', 'score', 'strengths', 'weaknesses', 'areas_to_improve', 'feedback_text']
         missing_fields = [field for field in required_fields if not data.get(field)]
         
         if missing_fields:
@@ -232,6 +232,7 @@ def save_feedback():
         feedback = InterviewFeedback(
             user_id=int(data['user_id']),
             interview_id=str(data['interview_id']),  # Keep as string for UUID
+            interview_field=str(data['interview_field']),
             score=int(data['score']),
             strengths=json.dumps(data['strengths']),
             weaknesses=json.dumps(data['weaknesses']),
