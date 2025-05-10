@@ -11,6 +11,7 @@ import SignupForm from './pages/login/SignupPage.jsx';
 import Simulation from './pages/simulation/simulation.jsx'
 import { ChatProvider } from './pages/simulation/hooks/useChat';
 import PrivateRoute from './helpers/PrivateRoute';
+import InterviewDetails from './pages/dashboard/components/InterviewDetails';
 
 // import './App.css';
  
@@ -47,6 +48,7 @@ function App() {
               </ChatProvider>
             </PrivateRoute>
           } />
+          <Route path="/interview/:interviewId" element={<InterviewDetails />} />
         </Routes>
       
     </Router>

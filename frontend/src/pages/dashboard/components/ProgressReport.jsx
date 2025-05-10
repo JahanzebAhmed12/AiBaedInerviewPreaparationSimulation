@@ -1,22 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './ProgressReport.css';
-import { FaChartLine } from 'react-icons/fa'; // Add this import
+import { FaChartLine } from 'react-icons/fa';
+import axios from 'axios';
 
 const ProgressReport = () => {
-    const [showPopup, setShowPopup] = useState(false);
-    const [preparationDetails, setPreparationDetails] = useState('');
+    const [interviews, setInterviews] = useState([]);
+    const navigate = useNavigate();
 
-    const handleDetailClick = (details) => {
-        setPreparationDetails(details);
-        setShowPopup(true);
+    useEffect(() => {
+        fetchInterviews();
+    }, []);
+
+    const fetchInterviews = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/get_interview_history', {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            setInterviews(response.data);
+        } catch (error) {
+            console.error('Error fetching interviews:', error);
+        }
     };
 
-    const closePopup = () => {
-        setShowPopup(false);
+    const handleDetailClick = (interviewId) => {
+        navigate(`/interview-details/${interviewId}`);
     };
 
     return (
-        <section id="progressReport" className="section" style={{ display: 'block' }}>
+        <section id="progressReport" className="section">
             <h2 className="progress-heading">
                 <span className="icon-wrapper"><FaChartLine /></span>
                 Progress Report
@@ -28,71 +42,31 @@ const ProgressReport = () => {
                         <tr>
                             <th>Date</th>
                             <th>Field</th>
-                            <th>Duration</th>
                             <th>Score</th>
                             <th>Feedback</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>2024-09-01</td>
-                            <td>Software Engineering</td>
-                            <td>45 mins</td>
-                            <td>85</td>
-                            <td>Good performance.</td>
-                            <td>
-                                <button
-                                    className="detail-btn"
-                                    onClick={() => handleDetailClick('Details about Software Engineering preparation')}
-                                >
-                                    Detail
-                                </button>
-                            </td>
-                        </tr>
+                        {interviews.map((interview) => (
+                            <tr key={interview.feedback_id}>
+                                <td>{new Date(interview.created_at).toLocaleDateString()}</td>
+                                <td>{interview.interview_field}</td>
+                                <td>{interview.score}</td>
+                                <td>{interview.feedback_text}</td>
+                                <td>
+                                    <button
+                                        className="detail-btn"
+                                        onClick={() => handleDetailClick(interview.interview_id)}
+                                    >
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
-
-            {/* Circular graph below the table */}
-            <div className="circular-graph-container">
-                <div className="circular-graph">
-                    <svg viewBox="0 0 36 36" className="circular-svg">
-                        <circle
-                            className="circle-bg"
-                            cx="18"
-                            cy="18"
-                            r="15.9155"
-                            fill="transparent"
-                            stroke="#e6e6e6"
-                            strokeWidth="3"
-                        />
-                        <circle
-                            className="circle-fg"
-                            cx="18"
-                            cy="18"
-                            r="15.9155"
-                            fill="transparent"
-                            stroke="#1abc9c"
-                            strokeWidth="3"
-                            strokeDasharray="85, 100" // Adjust this value to control the progress percentage
-                            strokeDashoffset="0"
-                        />
-                    </svg>
-                    <div className="circular-text">85%</div>
-                </div>
-            </div>
-
-            {/* Popup for preparation details */}
-            {showPopup && (
-                <div className="popup-container">
-                    <div className="popup-content">
-                        <h3>Preparation Details</h3>
-                        <p>{preparationDetails}</p>
-                        <button className="close-btn" onClick={closePopup}>Close</button>
-                    </div>
-                </div>
-            )}
         </section>
     );
 };

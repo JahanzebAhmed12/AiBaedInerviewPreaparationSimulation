@@ -283,3 +283,144 @@ def get_interview_stats():
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@main_routes.route('/get_interview_history', methods=['GET'])
+@jwt_required()
+def get_interview_history():
+    try:
+        user_id = get_jwt_identity()
+        feedbacks = InterviewFeedback.query.filter_by(user_id=user_id)\
+            .order_by(InterviewFeedback.created_at.desc())\
+            .all()
+        
+        return jsonify([{
+            'feedback_id': feedback.feedback_id,
+            'interview_id': feedback.interview_id,
+            'interview_field': feedback.interview_field,
+            'score': feedback.score,
+            'feedback_text': feedback.feedback_text,
+            'created_at': feedback.created_at.isoformat()
+        } for feedback in feedbacks])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@main_routes.route('/get_interview_feedback/<interview_id>', methods=['GET'])
+@jwt_required()
+def get_interview_feedback(interview_id):
+    try:
+        feedback = InterviewFeedback.query.filter_by(interview_id=interview_id).first()
+        if not feedback:
+            return jsonify({'error': 'Feedback not found'}), 404
+        
+        return jsonify({
+            'interview_id': feedback.interview_id,
+            'interview_field': feedback.interview_field,
+            'score': feedback.score,
+            'strengths': feedback.strengths,
+            'weaknesses': feedback.weaknesses,
+            'areas_to_improve': feedback.areas_to_improve,
+            'feedback_text': feedback.feedback_text,
+            'created_at': feedback.created_at.isoformat()
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@main_routes.route('/get_interview_responses/<interview_id>', methods=['GET'])
+@jwt_required()
+def get_interview_responses(interview_id):
+    try:
+        responses = ModelResponse.query.filter_by(interview_id=interview_id).order_by(ModelResponse.created_at).all()
+        if not responses:
+            return jsonify({'error': 'Responses not found'}), 404
+        
+        return jsonify([{
+            'human_response': response.human_response,
+            'llm_response': response.llm_response,
+            'created_at': response.created_at.isoformat()
+        } for response in responses])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@main_routes.route('/get_score_distribution', methods=['GET'])
+@jwt_required()
+def get_score_distribution():
+    try:
+        user_id = get_jwt_identity()
+        # Get all feedback for the user
+        feedbacks = InterviewFeedback.query.filter_by(user_id=user_id).all()
+        
+        # Initialize distribution counters
+        distribution = [0, 0, 0, 0, 0]  # 0-20, 21-40, 41-60, 61-80, 81-100
+        
+        # Count scores in each range
+        for feedback in feedbacks:
+            score = feedback.score
+            if score <= 20:
+                distribution[0] += 1
+            elif score <= 40:
+                distribution[1] += 1
+            elif score <= 60:
+                distribution[2] += 1
+            elif score <= 80:
+                distribution[3] += 1
+            else:
+                distribution[4] += 1
+        
+        return jsonify(distribution)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@main_routes.route('/get_score_trend', methods=['GET'])
+@jwt_required()
+def get_score_trend():
+    try:
+        user_id = get_jwt_identity()
+        # Get last 10 feedback entries ordered by date
+        feedbacks = InterviewFeedback.query.filter_by(user_id=user_id)\
+            .order_by(InterviewFeedback.created_at.desc())\
+            .limit(10)\
+            .all()
+        
+        # Prepare data in reverse chronological order
+        scores = [feedback.score for feedback in reversed(feedbacks)]
+        dates = [feedback.created_at.strftime('%Y-%m-%d') for feedback in reversed(feedbacks)]
+        
+        return jsonify({
+            'labels': dates,
+            'data': scores
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@main_routes.route('/get_field_performance', methods=['GET'])
+@jwt_required()
+def get_field_performance():
+    try:
+        user_id = get_jwt_identity()
+        # Get all unique interview fields
+        fields = db.session.query(InterviewFeedback.interview_field)\
+            .filter_by(user_id=user_id)\
+            .distinct()\
+            .all()
+        
+        field_data = []
+        for field in fields:
+            # Calculate average score for each field
+            avg_score = db.session.query(db.func.avg(InterviewFeedback.score))\
+                .filter_by(user_id=user_id, interview_field=field[0])\
+                .scalar()
+            
+            field_data.append({
+                'field': field[0],
+                'score': round(avg_score or 0, 2)
+            })
+        
+        # Sort by score in descending order
+        field_data.sort(key=lambda x: x['score'], reverse=True)
+        
+        return jsonify({
+            'labels': [item['field'] for item in field_data],
+            'data': [item['score'] for item in field_data]
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
