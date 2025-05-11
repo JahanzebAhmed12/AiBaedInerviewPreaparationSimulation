@@ -11,7 +11,7 @@ import json
 import random
 import string
 from datetime import datetime, timedelta
-from app.models import PasswordReset, User, InterviewFeedback
+from app.models import PasswordReset, User, InterviewFeedback, Preparation
 from app.email_utils import send_email
 from app import bcrypt
 main_routes = Blueprint('main_routes', __name__)
@@ -57,8 +57,28 @@ def generate_prompt():
         mainField = data.get('mainField', '')
         subField = data.get('subField', '')
         difficulty = data.get('difficulty', '')
+        useCached = data.get('useCached', True)  # Default to True if not specified
 
-        # Send the request to FastAPI
+        # Check if preparation material already exists and user wants to use cached content
+        if useCached:
+            existing_preparation = Preparation.query.filter_by(
+                major_field=mainField,
+                subfield=subField,
+                difficulty_level=difficulty
+            ).first()
+
+            if existing_preparation:
+                # Update last accessed date
+                existing_preparation.last_accessed = datetime.utcnow()
+                db.session.commit()
+                
+                # Return existing content
+                return jsonify({
+                    "generated_content": existing_preparation.content,
+                    "from_cache": True
+                })
+
+        # If no existing preparation or user wants fresh content, generate new content
         fastapi_response = requests.post(
             FASTAPI_URL,
             json={"mainField": mainField, "subField": subField, "difficulty": difficulty}
@@ -81,8 +101,22 @@ def generate_prompt():
             <a href="https://www.example.com">Learn More</a>
         """
 
-        # Return the generated content as HTML wrapped in a JSON response
-        return jsonify({"generated_content": response_html})
+        # Store the preparation material in the database
+        new_preparation = Preparation(
+            major_field=mainField,
+            subfield=subField,
+            difficulty_level=difficulty,
+            content=response_html,
+            user_id=1  # You might want to get this from the authenticated user
+        )
+        db.session.add(new_preparation)
+        db.session.commit()
+
+        # Return the generated content
+        return jsonify({
+            "generated_content": response_html,
+            "from_cache": False
+        })
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

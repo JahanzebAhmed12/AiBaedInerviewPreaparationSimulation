@@ -455,3 +455,54 @@
         padding: 10px;
     }
 }
+
+.cache-message {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    padding: 10px 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Preference Toggle */
+.preference-toggle {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.toggle-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.toggle-text {
+    font-size: 14px;
+    color: #003441;
+    font-weight: 500;
+}
+
+.toggle-description {
+    margin: 2px 0 0 10px;
+    font-size: 12px;
+    color: #666;
+    line-height: 1.4;
+}

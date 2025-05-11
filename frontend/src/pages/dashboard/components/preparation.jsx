@@ -9,6 +9,7 @@ const Preparation = () => {
     const [generatedContent, setGeneratedContent] = useState('');
     const [progress, setProgress] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [useCached, setUseCached] = useState(true);
 
     const mainFields = [
         'Architecture', 'Software Engineering', 'Data Science', 'Cybersecurity',
@@ -120,6 +121,7 @@ const Preparation = () => {
                     mainField,
                     subField,
                     difficulty,
+                    useCached,
                 }),
             });
 
@@ -128,9 +130,23 @@ const Preparation = () => {
             }
 
             const data = await response.json();
+            
             // Process the content to improve UI and embed videos
             const processedContent = processContent(data.generated_content);
             setGeneratedContent(processedContent);
+            
+            // If content was from cache, show a brief message
+            if (data.from_cache) {
+                const cacheMessage = document.createElement('div');
+                cacheMessage.className = 'cache-message';
+                cacheMessage.innerHTML = '<p>Content loaded from cache</p>';
+                document.querySelector('.content-panel').prepend(cacheMessage);
+                
+                // Remove the message after 3 seconds
+                setTimeout(() => {
+                    cacheMessage.remove();
+                }, 3000);
+            }
             
             clearInterval(progressInterval);
             setProgress(100);
@@ -210,6 +226,20 @@ const Preparation = () => {
                                 <option value="Intermediate">Intermediate</option>
                                 <option value="Expert">Expert</option>
                             </select>
+                        </div>
+
+                        <div className="form-group preference-toggle">
+                            <label className="toggle-label">
+                                <input
+                                    type="checkbox"
+                                    checked={useCached}
+                                    onChange={(e) => setUseCached(e.target.checked)}
+                                />
+                                <span className="toggle-text">Use previously generated content</span>
+                            </label>
+                            <p className="toggle-description">
+                                (If Avalible)
+                            </p>
                         </div>
 
                         <button className="generate-btn" onClick={handleGenerateContent}>

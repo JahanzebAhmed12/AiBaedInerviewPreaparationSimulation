@@ -22,14 +22,20 @@ class Preparation(db.Model):
     __tablename__ = 'preparation'
     preparation_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
-    start_date = db.Column(db.Date)
-    last_accessed = db.Column(db.Date)
-    progress_status = db.Column(db.String(50))
-    resource_link = db.Column(db.String(255))
-    content = db.Column(db.Text)
-    major_field = db.Column(db.String(100))
-    subfield = db.Column(db.String(100))
-    difficulty_level = db.Column(db.String(50))
+    start_date = db.Column(db.Date, default=datetime.utcnow)
+    last_accessed = db.Column(db.Date, default=datetime.utcnow)
+    progress_status = db.Column(db.String(50), default='Not Started')
+    major_field = db.Column(db.String(100), nullable=False)
+    subfield = db.Column(db.String(100), nullable=False)
+    difficulty_level = db.Column(db.String(50), nullable=False)
+    content = db.Column(db.Text)  # Store the AI-generated content
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # Add a unique constraint to prevent duplicate entries
+    __table_args__ = (
+        db.UniqueConstraint('major_field', 'subfield', 'difficulty_level', name='unique_preparation'),
+    )
 
 class Session(db.Model):
     __tablename__ = 'session'
