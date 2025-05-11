@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaClipboardList, FaPlay, FaFilter, FaLightbulb } from 'react-icons/fa';
+import { FaClipboardList, FaPlay, FaFilter, FaLightbulb, FaHistory } from 'react-icons/fa';
 import './preparation.css';
 
 const Preparation = () => {
@@ -10,6 +10,8 @@ const Preparation = () => {
     const [progress, setProgress] = useState(0);
     const [loading, setLoading] = useState(false);
     const [useCached, setUseCached] = useState(true);
+    const [availableCaches, setAvailableCaches] = useState([]);
+    const [selectedCacheId, setSelectedCacheId] = useState(null);
 
     const mainFields = [
         'Architecture', 'Software Engineering', 'Data Science', 'Cybersecurity',
@@ -122,6 +124,7 @@ const Preparation = () => {
                     subField,
                     difficulty,
                     useCached,
+                    selected_cache_id: selectedCacheId
                 }),
             });
 
@@ -134,6 +137,12 @@ const Preparation = () => {
             // Process the content to improve UI and embed videos
             const processedContent = processContent(data.generated_content);
             setGeneratedContent(processedContent);
+            
+            // Update available caches
+            if (data.available_caches) {
+                setAvailableCaches(data.available_caches);
+                setSelectedCacheId(data.cache_id);
+            }
             
             // If content was from cache, show a brief message
             if (data.from_cache) {
@@ -162,6 +171,11 @@ const Preparation = () => {
                 setLoading(false);
             }, remainingTime);
         }
+    };
+
+    const handleCacheSelection = (cacheId) => {
+        setSelectedCacheId(cacheId);
+        handleGenerateContent();
     };
 
     return (
@@ -238,9 +252,30 @@ const Preparation = () => {
                                 <span className="toggle-text">Use previously generated content</span>
                             </label>
                             <p className="toggle-description">
-                                (If Avalible)
+                                (If Available)
                             </p>
                         </div>
+
+                        {useCached && availableCaches.length > 0 && (
+                            <div className="form-group cache-selection">
+                                <label htmlFor="cacheSelect">
+                                    <FaHistory className="cache-icon" />
+                                    Select Cached Version
+                                </label>
+                                <select
+                                    id="cacheSelect"
+                                    value={selectedCacheId || ''}
+                                    onChange={(e) => handleCacheSelection(e.target.value)}
+                                    className="input-field"
+                                >
+                                    {availableCaches.map((cache) => (
+                                        <option key={cache.id} value={cache.id}>
+                                            Generated on {new Date(cache.created_at).toLocaleString()}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
 
                         <button className="generate-btn" onClick={handleGenerateContent}>
                             <FaPlay className="btn-icon" /> Generate Content

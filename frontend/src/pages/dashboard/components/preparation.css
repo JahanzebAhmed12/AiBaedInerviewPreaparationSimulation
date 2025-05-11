@@ -506,3 +506,45 @@
     color: #666;
     line-height: 1.4;
 }
+
+.cache-selection {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.cache-selection label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    color: #495057;
+    font-weight: 500;
+}
+
+.cache-icon {
+    color: #6c757d;
+}
+
+.cache-selection select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: white;
+    color: #495057;
+    font-size: 14px;
+    transition: border-color 0.15s ease-in-out;
+}
+
+.cache-selection select:hover {
+    border-color: #adb5bd;
+}
+
+.cache-selection select:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}

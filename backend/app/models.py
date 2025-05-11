@@ -32,11 +32,6 @@ class Preparation(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    # Add a unique constraint to prevent duplicate entries
-    __table_args__ = (
-        db.UniqueConstraint('major_field', 'subfield', 'difficulty_level', name='unique_preparation'),
-    )
-
 class Session(db.Model):
     __tablename__ = 'session'
     session_id = db.Column(db.String(36), primary_key=True)  # UUID as string

@@ -58,24 +58,50 @@ def generate_prompt():
         subField = data.get('subField', '')
         difficulty = data.get('difficulty', '')
         useCached = data.get('useCached', True)  # Default to True if not specified
+        selected_cache_id = data.get('selected_cache_id')  # New parameter for selecting specific cached response
 
         # Check if preparation material already exists and user wants to use cached content
         if useCached:
-            existing_preparation = Preparation.query.filter_by(
+            existing_preparations = Preparation.query.filter_by(
                 major_field=mainField,
                 subfield=subField,
                 difficulty_level=difficulty
-            ).first()
+            ).order_by(Preparation.created_at.desc()).all()
 
-            if existing_preparation:
-                # Update last accessed date
-                existing_preparation.last_accessed = datetime.utcnow()
+            if existing_preparations:
+                # If a specific cache ID is provided, return that specific response
+                if selected_cache_id:
+                    selected_preparation = next(
+                        (p for p in existing_preparations if p.preparation_id == selected_cache_id),
+                        None
+                    )
+                    if selected_preparation:
+                        # Update last accessed date
+                        selected_preparation.last_accessed = datetime.utcnow()
+                        db.session.commit()
+                        return jsonify({
+                            "generated_content": selected_preparation.content,
+                            "from_cache": True,
+                            "cache_id": selected_preparation.preparation_id,
+                            "available_caches": [{
+                                "id": p.preparation_id,
+                                "created_at": p.created_at.isoformat()
+                            } for p in existing_preparations]
+                        })
+                
+                # If no specific cache ID or not found, return the most recent one
+                most_recent = existing_preparations[0]
+                most_recent.last_accessed = datetime.utcnow()
                 db.session.commit()
                 
-                # Return existing content
                 return jsonify({
-                    "generated_content": existing_preparation.content,
-                    "from_cache": True
+                    "generated_content": most_recent.content,
+                    "from_cache": True,
+                    "cache_id": most_recent.preparation_id,
+                    "available_caches": [{
+                        "id": p.preparation_id,
+                        "created_at": p.created_at.isoformat()
+                    } for p in existing_preparations]
                 })
 
         # If no existing preparation or user wants fresh content, generate new content
@@ -112,13 +138,26 @@ def generate_prompt():
         db.session.add(new_preparation)
         db.session.commit()
 
+        # Get all available caches after adding new one
+        all_preparations = Preparation.query.filter_by(
+            major_field=mainField,
+            subfield=subField,
+            difficulty_level=difficulty
+        ).order_by(Preparation.created_at.desc()).all()
+
         # Return the generated content
         return jsonify({
             "generated_content": response_html,
-            "from_cache": False
+            "from_cache": False,
+            "cache_id": new_preparation.preparation_id,
+            "available_caches": [{
+                "id": p.preparation_id,
+                "created_at": p.created_at.isoformat()
+            } for p in all_preparations]
         })
 
     except Exception as e:
+        print(f"Error in generate_prompt: {str(e)}")  # Add error logging
         return jsonify({"error": str(e)}), 500
 
 
