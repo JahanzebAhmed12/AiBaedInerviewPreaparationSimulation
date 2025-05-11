@@ -1,8 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaPlayCircle, FaBriefcase, FaPlay } from 'react-icons/fa';
 import './StartInterview.css';
 
 const StartInterview = () => {
+    const navigate = useNavigate();
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const field = e.target.interviewField.value;
@@ -15,8 +18,8 @@ const StartInterview = () => {
 
         alert(`Interview started in ${field} field.`);
         e.target.reset();
-        // Redirect to the simulation page
-        window.location.href = '/simulation';
+        // Redirect to the simulation page using React Router
+        navigate('/simulation');
     };
 
     return (

@@ -308,37 +308,60 @@ def get_interview_history():
 @jwt_required()
 def get_interview_feedback(interview_id):
     try:
-        feedback = InterviewFeedback.query.filter_by(interview_id=interview_id).first()
+        user_id = get_jwt_identity()
+        feedback = InterviewFeedback.query.filter_by(interview_id=interview_id, user_id=user_id).first()
         if not feedback:
             return jsonify({'error': 'Feedback not found'}), 404
         
-        return jsonify({
+        # Debug logging
+        print("\n[DEBUG] Raw feedback data:")
+        print(f"Strengths: {feedback.strengths}")
+        print(f"Areas to improve: {feedback.areas_to_improve}")
+        
+        # Ensure the data is properly formatted
+        try:
+            strengths = json.loads(feedback.strengths) if feedback.strengths else []
+            areas_to_improve = json.loads(feedback.areas_to_improve) if feedback.areas_to_improve else []
+        except json.JSONDecodeError as e:
+            print(f"\n[ERROR] JSON decode error: {str(e)}")
+            strengths = []
+            areas_to_improve = []
+        
+        response_data = {
             'interview_id': feedback.interview_id,
             'interview_field': feedback.interview_field,
             'score': feedback.score,
-            'strengths': feedback.strengths,
-            'weaknesses': feedback.weaknesses,
-            'areas_to_improve': feedback.areas_to_improve,
+            'strengths': strengths,
+            'weaknesses': json.loads(feedback.weaknesses) if feedback.weaknesses else [],
+            'areas_to_improve': areas_to_improve,
             'feedback_text': feedback.feedback_text,
             'created_at': feedback.created_at.isoformat()
-        })
+        }
+        
+        print("\n[DEBUG] Response data:")
+        print(json.dumps(response_data, indent=2))
+        
+        return jsonify(response_data)
     except Exception as e:
+        print(f"\n[ERROR] Error in get_interview_feedback: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 @main_routes.route('/get_interview_responses/<interview_id>', methods=['GET'])
 @jwt_required()
 def get_interview_responses(interview_id):
     try:
-        responses = ModelResponse.query.filter_by(interview_id=interview_id).order_by(ModelResponse.created_at).all()
+        user_id = get_jwt_identity()
+        responses = ModelResponse.query.filter_by(interview_id=interview_id, user_id=user_id).order_by(ModelResponse.timestamp).all()
         if not responses:
-            return jsonify({'error': 'Responses not found'}), 404
+            return jsonify([])  # Return empty array instead of error
         
         return jsonify([{
             'human_response': response.human_response,
             'llm_response': response.llm_response,
-            'created_at': response.created_at.isoformat()
+            'created_at': response.timestamp.isoformat()
         } for response in responses])
     except Exception as e:
+        print(f"Error in get_interview_responses: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 @main_routes.route('/get_score_distribution', methods=['GET'])

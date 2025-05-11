@@ -54,7 +54,12 @@
     align-items: center;
     transition: background 0.3s ease;
 }
-
+.icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1abc9c;
+}
 .start-interview-section .s-interview-icons {
     margin-right: 8px;
 }

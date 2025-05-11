@@ -155,9 +155,7 @@ const Preparation = () => {
                     <span className="icon-wrapper"><FaClipboardList /></span>
                     Preparation
                 </h2>
-                <div className="preparation-subtitle">
-                    Generate customized learning content for your selected field
-                </div>
+             
             </div>
 
             <div className="preparation-content">

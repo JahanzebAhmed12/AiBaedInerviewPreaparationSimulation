@@ -48,7 +48,11 @@ function App() {
               </ChatProvider>
             </PrivateRoute>
           } />
-          <Route path="/interview/:interviewId" element={<InterviewDetails />} />
+          <Route path="/interview-details/:interviewId" element={
+            <PrivateRoute>
+              <InterviewDetails />
+            </PrivateRoute>
+          } />
         </Routes>
       
     </Router>
