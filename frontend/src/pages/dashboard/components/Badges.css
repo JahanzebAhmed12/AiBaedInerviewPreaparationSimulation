@@ -100,6 +100,94 @@
     margin: 5px 0 0;
 }
 
+/* Badge Progress Bar Styles */
+.badges-section .badge-progress {
+    margin-top: 12px;
+    width: 100%;
+}
+
+.badges-section .progress-bar {
+    height: 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.badges-section .progress-fill {
+    height: 100%;
+    background-color: #28a745;
+    transition: width 0.5s ease-in-out;
+}
+
+.badges-section .progress-text {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+/* Badge Status Indicator */
+.badges-section .badge-status {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 12px;
+    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badges-section .unlocked-status {
+    background-color: #e6f7ee;
+    color: #10b981;
+    border: 1px solid #10b981;
+}
+
+.badges-section .locked-status {
+    background-color: #f3f4f6;
+    color: #9ca3af;
+    border: 1px solid #d1d5db;
+}
+
+/* Loading and Error States */
+.badges-section .loading-spinner {
+    text-align: center;
+    padding: 20px;
+    color: #003441;
+    font-size: 16px;
+    font-weight: 500;
+    position: relative;
+}
+
+.badges-section .loading-spinner::after {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid #003441;
+    border-top-color: transparent;
+    margin: 10px auto;
+    animation: spin 1s linear infinite;
+}
+
+.badges-section .error-message {
+    background-color: #fee2e2;
+    color: #ef4444;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #ef4444;
+    font-size: 14px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 /* Category Styles */
 .badges-section .badge[data-category="count"] {
     border-left: 4px solid #FFD700;
