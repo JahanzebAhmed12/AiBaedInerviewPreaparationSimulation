@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Doughnut, Line, Bar } from 'react-chartjs-2';
+import { Doughnut, Line, Bar, Radar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -10,7 +10,9 @@ import {
   PointElement,
   LineElement,
   BarElement,
-  Title
+  Title,
+  RadialLinearScale,
+  Filler
 } from 'chart.js';
 import Sidebar from './Sidebar';
 import ProgressReport from './ProgressReport';
@@ -31,7 +33,9 @@ ChartJS.register(
   PointElement,
   LineElement,
   BarElement,
-  Title
+  Title,
+  RadialLinearScale,
+  Filler
 );
 
 const Dashboard = () => {
@@ -48,7 +52,10 @@ const Dashboard = () => {
   const [chartData, setChartData] = useState({
     distribution: null,
     trend: null,
-    fields: null
+    fields: null,
+    skills: null,
+    questionTypes: null,
+    timePerformance: null
   });
 
   useEffect(() => {
@@ -67,7 +74,7 @@ const Dashboard = () => {
 
     const fetchChartData = async () => {
       try {
-        const [distributionRes, trendRes, fieldsRes] = await Promise.all([
+        const [distributionRes, trendRes, fieldsRes, skillsRes, questionTypesRes, timePerformanceRes] = await Promise.all([
           axios.get('http://localhost:5000/get_score_distribution', {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
           }),
@@ -76,13 +83,25 @@ const Dashboard = () => {
           }),
           axios.get('http://localhost:5000/get_field_performance', {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+          }),
+          axios.get('http://localhost:5000/get_skills_assessment', {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+          }),
+          axios.get('http://localhost:5000/get_question_type_performance', {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+          }),
+          axios.get('http://localhost:5000/get_time_performance', {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
           })
         ]);
 
         setChartData({
           distribution: distributionRes.data,
           trend: trendRes.data,
-          fields: fieldsRes.data
+          fields: fieldsRes.data,
+          skills: skillsRes.data,
+          questionTypes: questionTypesRes.data,
+          timePerformance: timePerformanceRes.data
         });
       } catch (error) {
         console.error('Error fetching chart data:', error);
@@ -101,11 +120,15 @@ const Dashboard = () => {
 
   // Score Distribution Chart
   const distributionData = {
-    labels: ['0-20', '21-40', '41-60', '61-80', '81-100'],
+    labels: ['0-10', '11-20', '21-30', '31-40', '41-50', '51-60', '61-70', '71-80', '81-90', '91-100'],
     datasets: [{
       label: 'Score Distribution',
-      data: chartData.distribution || [0, 0, 0, 0, 0],
-      backgroundColor: ['#e74c3c', '#f39c12', '#f1c40f', '#2ecc71', '#27ae60'],
+      data: chartData.distribution || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      backgroundColor: [
+        '#e74c3c', '#e67e22', '#f39c12', '#f1c40f', 
+        '#2ecc71', '#27ae60', '#1abc9c', '#16a085',
+        '#3498db', '#2980b9'
+      ],
       hoverOffset: 4,
     }]
   };
@@ -129,6 +152,54 @@ const Dashboard = () => {
       label: 'Average Score by Field',
       data: chartData.fields?.data || [],
       backgroundColor: ['#1abc9c', '#3498db', '#9b59b6', '#e67e22', '#34495e'],
+    }]
+  };
+
+  // Skills Assessment Radar Chart
+  const skillsData = {
+    labels: chartData.skills?.labels || ['Problem Solving', 'Communication', 'Technical Knowledge', 'Time Management', 'Code Quality'],
+    datasets: [{
+      label: 'Skill Assessment',
+      data: chartData.skills?.data || [0, 0, 0, 0, 0],
+      backgroundColor: 'rgba(26, 188, 156, 0.2)',
+      borderColor: '#1abc9c',
+      borderWidth: 2,
+      pointBackgroundColor: '#1abc9c',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: '#1abc9c'
+    }]
+  };
+
+  // Question Type Performance Stacked Bar Chart
+  const questionTypeData = {
+    labels: chartData.questionTypes?.labels || ['Easy', 'Medium', 'Hard'],
+    datasets: [
+      {
+        label: 'Correct',
+        data: chartData.questionTypes?.correct || [0, 0, 0],
+        backgroundColor: '#2ecc71',
+      },
+      {
+        label: 'Incorrect',
+        data: chartData.questionTypes?.incorrect || [0, 0, 0],
+        backgroundColor: '#e74c3c',
+      }
+    ]
+  };
+
+  // Time Performance Heatmap
+  const timePerformanceData = {
+    labels: chartData.timePerformance?.labels || ['Morning', 'Afternoon', 'Evening', 'Night'],
+    datasets: [{
+      label: 'Average Score by Time',
+      data: chartData.timePerformance?.data || [0, 0, 0, 0],
+      backgroundColor: [
+        'rgba(46, 204, 113, 0.8)',
+        'rgba(52, 152, 219, 0.8)',
+        'rgba(155, 89, 182, 0.8)',
+        'rgba(231, 76, 60, 0.8)'
+      ],
     }]
   };
 
@@ -157,6 +228,18 @@ const Dashboard = () => {
         return <Line data={trendData} options={chartOptions} />;
       case 'fields':
         return <Bar data={fieldData} options={chartOptions} />;
+      case 'skills':
+        return <Radar data={skillsData} options={chartOptions} />;
+      case 'questionTypes':
+        return <Bar data={questionTypeData} options={{
+          ...chartOptions,
+          scales: {
+            x: { stacked: true },
+            y: { stacked: true }
+          }
+        }} />;
+      case 'timePerformance':
+        return <Bar data={timePerformanceData} options={chartOptions} />;
       default:
         return <Doughnut data={distributionData} options={chartOptions} />;
     }
@@ -238,6 +321,24 @@ const Dashboard = () => {
                     onClick={() => setActiveChart('fields')}
                   >
                     Field Performance
+                  </button>
+                  <button 
+                    className={`chart-tab ${activeChart === 'skills' ? 'active' : ''}`}
+                    onClick={() => setActiveChart('skills')}
+                  >
+                    Skills Assessment
+                  </button>
+                  <button 
+                    className={`chart-tab ${activeChart === 'questionTypes' ? 'active' : ''}`}
+                    onClick={() => setActiveChart('questionTypes')}
+                  >
+                    Question Types
+                  </button>
+                  <button 
+                    className={`chart-tab ${activeChart === 'timePerformance' ? 'active' : ''}`}
+                    onClick={() => setActiveChart('timePerformance')}
+                  >
+                    Time Performance
                   </button>
                 </div>
                 <div className="chart-container">

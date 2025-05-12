@@ -110,23 +110,27 @@
 
 .chart-tabs {
     display: flex;
-    gap: 15px;
+    gap: 10px;
     margin-bottom: 25px;
     border-bottom: 1px solid #ecf0f1;
     padding-bottom: 15px;
     flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .chart-tab {
-    padding: 10px 20px;
+    padding: 8px 16px;
     border: none;
     background: none;
     cursor: pointer;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #7f8c8d;
     border-radius: 8px;
     transition: all 0.3s ease;
     font-weight: 500;
+    white-space: nowrap;
+    min-width: fit-content;
 }
 
 .chart-tab:hover {
@@ -137,6 +141,7 @@
 .chart-tab.active {
     background: linear-gradient(45deg, #1abc9c, #3498db);
     color: white;
+    box-shadow: 0 2px 8px rgba(26, 188, 156, 0.2);
 }
 
 .chart-container {
@@ -186,13 +191,20 @@
     }
 
     .chart-tabs {
-        flex-direction: row;
         overflow-x: auto;
         padding-bottom: 10px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .chart-tabs::-webkit-scrollbar {
+        display: none;
     }
 
     .chart-tab {
-        white-space: nowrap;
+        padding: 6px 12px;
+        font-size: 0.85rem;
     }
 
     .chart-container {

@@ -520,3 +520,130 @@ def get_field_performance():
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@main_routes.route('/get_skills_assessment', methods=['GET'])
+@jwt_required()
+def get_skills_assessment():
+    try:
+        user_id = get_jwt_identity()
+        # Get all feedback for the user
+        feedbacks = InterviewFeedback.query.filter_by(user_id=user_id).all()
+        
+        # Initialize skill scores
+        skills = {
+            'Problem Solving': 0,
+            'Communication': 0,
+            'Technical Knowledge': 0,
+            'Time Management': 0,
+            'Code Quality': 0
+        }
+        
+        # Count occurrences of each skill in strengths
+        for feedback in feedbacks:
+            if feedback.strengths:
+                try:
+                    strengths = json.loads(feedback.strengths)
+                    for strength in strengths:
+                        for skill in skills.keys():
+                            if skill.lower() in strength.lower():
+                                skills[skill] += 1
+                except json.JSONDecodeError:
+                    continue
+        
+        # Calculate percentages based on total feedback count
+        total_feedbacks = len(feedbacks) or 1  # Avoid division by zero
+        skill_scores = {skill: (count / total_feedbacks) * 100 for skill, count in skills.items()}
+        
+        return jsonify({
+            'labels': list(skills.keys()),
+            'data': list(skill_scores.values())
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@main_routes.route('/get_question_type_performance', methods=['GET'])
+@jwt_required()
+def get_question_type_performance():
+    try:
+        user_id = get_jwt_identity()
+        # Get all feedback for the user
+        feedbacks = InterviewFeedback.query.filter_by(user_id=user_id).all()
+        
+        # Initialize counters for each difficulty level
+        performance = {
+            'Easy': {'correct': 0, 'incorrect': 0},
+            'Medium': {'correct': 0, 'incorrect': 0},
+            'Hard': {'correct': 0, 'incorrect': 0}
+        }
+        
+        # Analyze feedback text to determine question type and correctness
+        for feedback in feedbacks:
+            if feedback.feedback_text:
+                # Extract difficulty level from feedback text
+                difficulty = 'Medium'  # Default
+                if 'easy' in feedback.feedback_text.lower():
+                    difficulty = 'Easy'
+                elif 'hard' in feedback.feedback_text.lower():
+                    difficulty = 'Hard'
+                
+                # Determine if the answer was correct based on score
+                is_correct = feedback.score >= 70  # Consider 70% as passing
+                
+                if is_correct:
+                    performance[difficulty]['correct'] += 1
+                else:
+                    performance[difficulty]['incorrect'] += 1
+        
+        return jsonify({
+            'labels': list(performance.keys()),
+            'correct': [data['correct'] for data in performance.values()],
+            'incorrect': [data['incorrect'] for data in performance.values()]
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@main_routes.route('/get_time_performance', methods=['GET'])
+@jwt_required()
+def get_time_performance():
+    try:
+        user_id = get_jwt_identity()
+        # Get all feedback for the user
+        feedbacks = InterviewFeedback.query.filter_by(user_id=user_id).all()
+        
+        # Initialize time slots
+        time_slots = {
+            'Morning': {'count': 0, 'total_score': 0},  # 6-12
+            'Afternoon': {'count': 0, 'total_score': 0},  # 12-18
+            'Evening': {'count': 0, 'total_score': 0},  # 18-24
+            'Night': {'count': 0, 'total_score': 0}  # 0-6
+        }
+        
+        # Analyze feedback timestamps
+        for feedback in feedbacks:
+            hour = feedback.created_at.hour
+            
+            # Determine time slot
+            if 6 <= hour < 12:
+                slot = 'Morning'
+            elif 12 <= hour < 18:
+                slot = 'Afternoon'
+            elif 18 <= hour < 24:
+                slot = 'Evening'
+            else:
+                slot = 'Night'
+            
+            time_slots[slot]['count'] += 1
+            time_slots[slot]['total_score'] += feedback.score
+        
+        # Calculate average scores
+        averages = []
+        for slot in time_slots.values():
+            avg = slot['total_score'] / slot['count'] if slot['count'] > 0 else 0
+            averages.append(round(avg, 2))
+        
+        return jsonify({
+            'labels': list(time_slots.keys()),
+            'data': averages
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
