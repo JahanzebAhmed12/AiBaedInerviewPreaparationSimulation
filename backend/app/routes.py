@@ -11,7 +11,7 @@ import json
 import random
 import string
 from datetime import datetime, timedelta
-from app.models import PasswordReset, User, InterviewFeedback, Preparation
+from app.models import PasswordReset, User, InterviewFeedback, Preparation, Badge
 from app.email_utils import send_email
 from app import bcrypt
 main_routes = Blueprint('main_routes', __name__)
@@ -521,6 +521,7 @@ def get_field_performance():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
 @main_routes.route('/get_skills_assessment', methods=['GET'])
 @jwt_required()
 def get_skills_assessment():
@@ -647,3 +648,165 @@ def get_time_performance():
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@main_routes.route('/save_badges', methods=['POST'])
+@jwt_required()
+def save_badges():
+    try:
+        user_id = get_jwt_identity()
+        data = request.json
+        badges_to_save = data.get('badges', [])
+        
+        if not badges_to_save:
+            return jsonify({'message': 'No badges to save'}), 200
+            
+        # First, check which badges are already saved to avoid duplicates
+        existing_badges = Badge.query.filter_by(user_id=user_id).all()
+        existing_badge_names = set(badge.badge_name for badge in existing_badges)
+        
+        # Filter out badges that are already saved
+        new_badges = [badge for badge in badges_to_save if badge['badge_name'] not in existing_badge_names]
+        
+        if not new_badges:
+            return jsonify({'message': 'All badges already saved'}), 200
+            
+        # Save new badges
+        for badge_data in new_badges:
+            badge = Badge(
+                badge_name=badge_data['badge_name'],
+                criteria=badge_data['criteria'],
+                user_id=user_id,
+                date_awarded=datetime.utcnow()
+            )
+            db.session.add(badge)
+            
+        db.session.commit()
+        return jsonify({'message': f'Successfully saved {len(new_badges)} new badges'}), 200
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
+@main_routes.route('/get_user_badges', methods=['GET'])
+@jwt_required()
+def get_user_badges():
+    try:
+        user_id = get_jwt_identity()
+        
+        # Get all the badges for the user
+        badges = Badge.query.filter_by(user_id=user_id).all()
+        
+        # Format the badge data
+        badge_data = [{
+            'badge_id': badge.badge_id,
+            'badge_name': badge.badge_name,
+            'criteria': badge.criteria,
+            'date_awarded': badge.date_awarded.isoformat()
+        } for badge in badges]
+        
+        return jsonify(badge_data), 200
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@main_routes.route('/get_badge_progress', methods=['GET'])
+@jwt_required()
+def get_badge_progress():
+    """Get the user's progress toward earning each badge"""
+    try:
+        user_id = get_jwt_identity()
+        
+        # Get interview stats
+        total_interviews = InterviewFeedback.query.filter_by(user_id=user_id).count()
+        
+        highest_score = db.session.query(db.func.max(InterviewFeedback.score))\
+            .filter_by(user_id=user_id)\
+            .scalar() or 0
+            
+        # Get score trend to detect improvement
+        feedbacks = InterviewFeedback.query.filter_by(user_id=user_id)\
+            .order_by(InterviewFeedback.created_at)\
+            .all()
+            
+        # Calculate score improvement
+        score_improvement = 0
+        if len(feedbacks) >= 2:
+            score_improvement = feedbacks[-1].score - feedbacks[0].score
+            
+        # Get existing badges
+        existing_badges = Badge.query.filter_by(user_id=user_id).all()
+        existing_badge_names = set(badge.badge_name for badge in existing_badges)
+        
+        # Define badge progress
+        badge_progress = [
+            {
+                "id": 1,
+                "name": "First Step",
+                "description": "Completed your first interview",
+                "current": total_interviews,
+                "required": 1,
+                "progress": min(100, (total_interviews / 1) * 100),
+                "unlocked": "First Step" in existing_badge_names or total_interviews >= 1
+            },
+            {
+                "id": 2,
+                "name": "Getting Started",
+                "description": "Completed 3 interviews",
+                "current": total_interviews,
+                "required": 3,
+                "progress": min(100, (total_interviews / 3) * 100),
+                "unlocked": "Getting Started" in existing_badge_names or total_interviews >= 3
+            },
+            {
+                "id": 3,
+                "name": "On Fire",
+                "description": "Completed 5 interviews",
+                "current": total_interviews,
+                "required": 5,
+                "progress": min(100, (total_interviews / 5) * 100),
+                "unlocked": "On Fire" in existing_badge_names or total_interviews >= 5
+            },
+            {
+                "id": 4,
+                "name": "Score Champion",
+                "description": "Achieved a score of 80 or higher",
+                "current": highest_score,
+                "required": 80,
+                "progress": min(100, (highest_score / 80) * 100),
+                "unlocked": "Score Champion" in existing_badge_names or highest_score >= 80
+            },
+            {
+                "id": 5,
+                "name": "High Achiever",
+                "description": "Achieved a score of 90 or higher",
+                "current": highest_score,
+                "required": 90,
+                "progress": min(100, (highest_score / 90) * 100),
+                "unlocked": "High Achiever" in existing_badge_names or highest_score >= 90
+            },
+            {
+                "id": 6,
+                "name": "Rising Star",
+                "description": "Improved score by 20+ points",
+                "current": score_improvement,
+                "required": 20,
+                "progress": min(100, (score_improvement / 20) * 100),
+                "unlocked": "Rising Star" in existing_badge_names or score_improvement >= 20
+            },
+            {
+                "id": 7,
+                "name": "Feedback Master",
+                "description": "Implemented feedback suggestions",
+                "current": 1 if total_interviews >= 2 else 0,  # Assume implemented if they've done multiple interviews
+                "required": 1,
+                "progress": 100 if total_interviews >= 2 else 0,
+                "unlocked": "Feedback Master" in existing_badge_names or total_interviews >= 2
+            }
+        ]
+        
+        return jsonify(badge_progress), 200
+        
+    except Exception as e:
+        print(f"Error in get_badge_progress: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
