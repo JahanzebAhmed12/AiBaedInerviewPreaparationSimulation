@@ -1,7 +1,7 @@
 // ProfilePopup.js
 import React, { useState, useEffect } from 'react';
 import './ProfilePopup.css';
-import { FaSignOutAlt } from 'react-icons/fa';
+import { FaSignOutAlt, FaUser, FaEnvelope, FaBriefcase, FaUserTie, FaCode } from 'react-icons/fa';
 
 const ProfilePopup = ({ onClose }) => {
   const [userData, setUserData] = useState({
@@ -16,11 +16,11 @@ const ProfilePopup = ({ onClose }) => {
     // Fetch user profile data when the component mounts
     const fetchProfile = async () => {
       try {
-        const token = localStorage.getItem('token'); // Get JWT token from localStorage
+        const token = localStorage.getItem('token');
 
         if (!token) {
           alert('No token found, please login again');
-          window.location.href = '/login'; // Redirect to login page
+          window.location.href = '/login';
           return;
         }
 
@@ -55,22 +55,37 @@ const ProfilePopup = ({ onClose }) => {
 
   const handleLogout = () => {
     alert('Logged out successfully!');
-    onClose(); // Close the popup
-    localStorage.removeItem('token'); // Clear the token from localStorage
-    window.location.href = '/'; // Redirect to the landing page
+    onClose();
+    localStorage.removeItem('token');
+    window.location.href = '/';
   };
 
   return (
     <div className="profile-popup">
       <div className="popup-content">
         <h1>User Profile</h1>
-        <p><strong>Name:</strong> {userData.name}</p>
-        <p><strong>Email:</strong> {userData.email}</p>
-        <p><strong>Experience Level:</strong> {userData.experience}</p>
-        <p><strong>Designation:</strong> {userData.designation}</p>
-        <p><strong>Field:</strong> {userData.interview_field}</p>
-        
-        {/* Logout Button */}
+        <div className="profile-info">
+          <p>
+            <strong><FaUser /> Name</strong>
+            <span>{userData.name}</span>
+          </p>
+          <p>
+            <strong><FaEnvelope /> Email</strong>
+            <span>{userData.email}</span>
+          </p>
+          <p>
+            <strong><FaBriefcase /> Experience</strong>
+            <span>{userData.experience}</span>
+          </p>
+          <p>
+            <strong><FaUserTie /> Designation</strong>
+            <span>{userData.designation}</span>
+          </p>
+          <p>
+            <strong><FaCode /> Field</strong>
+            <span>{userData.interview_field}</span>
+          </p>
+        </div>
         <button onClick={handleLogout} className="logout-btn">
           <FaSignOutAlt /> Logout
         </button>

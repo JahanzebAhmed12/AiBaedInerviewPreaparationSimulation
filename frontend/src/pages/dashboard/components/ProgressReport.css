@@ -1,44 +1,122 @@
 /* Progress Report Section */
+#progressReport {
+    padding: 20px;
+    background: #f5f7fa;
+    min-height: calc(100vh - 70px);
+}
+
 #progressReport .progress-heading {
     font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 20px;
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 30px;
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.chart-container {
-    text-align: center;
+#progressReport .icon-wrapper {
+    color: #1abc9c;
 }
 
-/* Circular Graph Styles */
-#progressReport .circular-graph-container {
-    display: flex;
-    justify-content: center;
+/* Table Container */
+#progressReport .table-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    overflow-x: auto;
+    margin: 0;
+}
+
+/* Table Styles */
+#progressReport table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#progressReport table thead {
+    background: linear-gradient(45deg, #1abc9c, #3498db);
+    color: white;
+}
+
+#progressReport table th {
+    padding: 15px 20px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+#progressReport table td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #ecf0f1;
+    color: #2c3e50;
+    font-size: 0.95rem;
+}
+
+#progressReport table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+#progressReport table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Detail Button */
+#progressReport .detail-btn {
+    padding: 8px 15px;
+    background: linear-gradient(45deg, #1abc9c, #3498db);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-flex;
     align-items: center;
-    margin-top: -100px; 
-    margin-left: 700px; /* Adjust spacing from the table */
+    gap: 5px;
+}
+
+#progressReport .detail-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(26, 188, 156, 0.3);
+}
+
+/* Circular Graph Container */
+#progressReport .circular-graph-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 #progressReport .circular-graph {
+    width: 120px;
+    height: 120px;
     position: relative;
-    width: 100px;
-    height: 100px;
 }
 
 #progressReport .circular-graph svg {
-    transform: rotate(-90deg); /* Start the stroke from the top */
+    transform: rotate(-90deg);
 }
 
 #progressReport .circular-graph .circle-bg {
-    stroke: #e6e6e6; /* Light grey background circle */
+    stroke: #ecf0f1;
 }
 
 #progressReport .circular-graph .circle-fg {
-    stroke: #1abc9c; /* Green stroke for progress */
+    stroke: #1abc9c;
     stroke-linecap: round;
-    transition: stroke-dasharray 0.5s ease; /* Smooth animation */
+    transition: stroke-dasharray 0.5s ease;
 }
 
 #progressReport .circular-graph .circular-text {
@@ -46,159 +124,78 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 18px;
-    color: #003441;
-    font-weight: bold;
+    font-size: 1.2rem;
+    color: #2c3e50;
+    font-weight: 600;
 }
 
-.chart-container h3 {
-    margin-bottom: 20px;
-    font-size: 18px;
-    font-weight: bold;
-}
- 
-/* Table Container */
-#progressReport .table-container {
-    overflow-x: auto;
-    margin: 0;
-    width: 100%;
-    margin-left: -250px; /* Adjust this value as needed */
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+    #progressReport .circular-graph-container {
+        position: relative;
+        top: 0;
+        right: 0;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+    }
 }
 
-/* Detail Button */
-#progressReport .detail-btn {
-    padding: 8px 15px;
-    background-color: #1abc9c;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.3s ease;
+@media (max-width: 992px) {
+    #progressReport {
+        padding: 15px;
+    }
+
+    #progressReport .progress-heading {
+        font-size: 24px;
+    }
+
+    #progressReport table th,
+    #progressReport table td {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
 }
 
-#progressReport .detail-btn:hover {
-    background-color: #16a085;
-}
-
-/* Popup Container */
-#progressReport .popup-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-/* Popup Content */
-#progressReport .popup-content {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    width: 400px;
-    max-width: 90%;
-}
-
-#progressReport .popup-content h3 {
-    margin-bottom: 10px;
-    font-size: 20px;
-    color: #003441;
-}
-
-#progressReport .popup-content p {
-    font-size: 16px;
-    color: #003441;
-    margin-bottom: 20px;
-}
-
-/* Close Button */
-#progressReport .close-btn {
-    padding: 8px 15px;
-    background-color: #e74c3c;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.3s ease;
-}
-
-#progressReport .close-btn:hover {
-    background-color: #c0392b;
-}
-
-/* Table Styles */
-#progressReport table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #ffffff;
-    border: 1px solid  #003441;
-    border-radius: 15px;
-    overflow: hidden;
-    margin: 0; /* Ensure no left margin */
-}
-
-#progressReport table thead {
-    background: #1abc9c;
-    color: #ecf0f1;
-    border: 1px solid  #003441;
-}
-
-#progressReport table th, #progressReport table td {
-    padding: 15px 20px;
-    text-align: left;
-    font-size: 16px;
-}
-
-#progressReport table th {
-    font-weight: 700;
-}
-
-#progressReport table tbody tr:nth-child(even) {
-    border: 1px solid  #003441;
-    background: #f9f9f9;
-}
-
-/* Media Queries for Responsiveness */
-
-/* For tablets and smaller screens */
 @media (max-width: 768px) {
     #progressReport .table-container {
-        margin-left: 0; /* Remove the margin on smaller screens */
-    }
-
-    #progressReport table th, #progressReport table td {
-        padding: 10px 15px; /* Reduce padding for smaller screens */
-        font-size: 14px; /* Adjust font size */
-    }
-
-    #progressReport table thead {
-        font-size: 14px; /* Reduce font size in table header */
-    }
-}
-
-/* For very small screens (phones in portrait mode) */
-@media (max-width: 480px) {
-    #progressReport .table-container {
-        margin-left: 0; /* Remove the margin on small screens */
+        padding: 15px;
+        margin: 0 -15px;
+        border-radius: 0;
     }
 
     #progressReport table {
-        font-size: 12px; /* Adjust font size for readability */
+        font-size: 0.9rem;
     }
 
-    #progressReport table th, #progressReport table td {
-        padding: 8px 12px; /* Further reduce padding */
+    #progressReport .detail-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #progressReport {
+        padding: 10px;
     }
 
-    #progressReport table thead {
-        font-size: 12px; /* Further reduce font size in table header */
+    #progressReport .progress-heading {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    #progressReport table th,
+    #progressReport table td {
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+
+    #progressReport .circular-graph {
+        width: 100px;
+        height: 100px;
+    }
+
+    #progressReport .circular-graph .circular-text {
+        font-size: 1rem;
     }
 }

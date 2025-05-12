@@ -2,206 +2,235 @@
 .dashboard-container {
     display: flex;
     font-family: 'Roboto', sans-serif;
+    background-color: #f5f7fa;
+    min-height: 100vh;
+    position: relative;
 }
 
 /* Dashboard main content */
 .dashboard-container main {
     flex: 1;
-    padding: 20px;
+    padding: 0;
+    margin-left: 20px;
+    margin-top: 80px;
+    width: calc(100% - 250px);
+    transition: all 0.3s ease;
+    max-width: 1400px;
 }
 
 /* Dashboard cards */
 .dashboard-container .dashboard-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
-    margin-top: 20px;
-    margin-left: -250px; /* Adjust the value to the space you want */
+    margin: 20px;
+    max-width: 1400px;
 }
 
 /* Individual card styling */
 .dashboard-container .card {
-    background: rgb(255, 255, 255); /* Semi-transparent background */
-    border: 1px solid  #003441;
-    padding: 5px;
+    background: white;
+    border: none;
+    padding: 25px;
     border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     display: flex;
     align-items: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
-.graph-section {
-    margin-top: 40px;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
-    border: 1px solid  #003441;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: -250px; 
-}
-
-.graph-section canvas {
-    max-width: 400px;
-    max-height: 280px;
+.dashboard-container .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(45deg, #1abc9c, #3498db);
 }
 
 .dashboard-container .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 /* Card icon styling */
 .dashboard-container .card-icon {
-    font-size: 36px;
-    color:    #003441; /* Dark gradient background */
+    font-size: 2.5rem;
+    background: linear-gradient(45deg, #1abc9c, #3498db);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     margin-right: 20px;
-    margin-bottom: 5px;
+    padding: 15px;
+    border-radius: 12px;
+    background-color: rgba(26, 188, 156, 0.1);
 }
 
 /* Card content */
 .dashboard-container .card-content h3 {
-    font-size: 18px;
-    color: #003441;
+    font-size: 1rem;
+    color: #7f8c8d;
+    margin-bottom: 5px;
+    font-weight: 500;
 }
 
 .dashboard-container .card-content p {
-    font-size: 20px;
+    font-size: 1.8rem;
     font-weight: 700;
-    color:  #003441;
-    margin-top: -20px; /* Move the text upward */
-    margin-bottom: 0; /* Reset bottom margin */
+    color: #2c3e50;
+    margin: 0;
 }
 
 /* Section heading */
 .dashboard-container h2 {
-    font-size: 28px;
-    margin-bottom: 20px;
-    color:  #003441;
-    margin-left: -250px;
-    margin-top: 5%;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
 }
 
-/* Media Queries for Responsiveness */
-
-/* For tablets and smaller screens */
-@media (max-width: 768px) {
-    .dashboard-container .dashboard-cards {
-        margin-left: 0; /* Adjust left margin for smaller screens */
-    }
-
-    .dashboard-container h2 {
-        margin-left: 0; /* Remove left margin on h2 for smaller screens */
-        font-size: 24px; /* Slightly smaller heading */
-    }
-
-    .dashboard-container .card {
-        padding: 12px; /* Reduced padding for cards */
-    }
-
-    .dashboard-container .card-icon {
-        font-size: 30px; /* Smaller icons for smaller screens */
-        margin-right: 15px;
-    }
-
-    .dashboard-container .card-content h3 {
-        font-size: 16px; /* Adjust heading size for smaller screens */
-    }
-
-    .dashboard-container .card-content p {
-        font-size: 24px; /* Adjust text size for smaller screens */
-    }
+.dashboard-container h2 svg {
+    color: #1abc9c;
 }
 
-/* For very small screens (phones in portrait mode) */
-@media (max-width: 480px) {
-    .dashboard-container .dashboard-cards {
-        margin-left: 0; /* Remove left margin for small screens */
-    }
-
-    .dashboard-container h2 {
-        font-size: 20px; /* Further reduce font size of heading */
-        margin-left: 0; /* Center heading */
-    }
-
-    .dashboard-container .card {
-        padding: 10px; /* Reduce padding for cards */
-    }
-
-    .dashboard-container .card-icon {
-        font-size: 24px; /* Smaller icons for very small screens */
-        margin-right: 10px;
-    }
-
-    .dashboard-container .card-content h3 {
-        font-size: 14px; /* Further reduce text size */
-    }
-
-    .dashboard-container .card-content p {
-        font-size: 20px; /* Adjust text size for small screens */
-    }
-}
-
+/* Charts Section */
 .charts-section {
-  margin-top: 2rem;
-  padding: 1rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 40px 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 25px;
+    max-width: 1400px;
 }
 
 .chart-tabs {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 1rem;
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #ecf0f1;
+    padding-bottom: 15px;
+    flex-wrap: wrap;
 }
 
 .chart-tab {
-  padding: 0.5rem 1rem;
-  border: none;
-  background: none;
-  cursor: pointer;
-  font-size: 1rem;
-  color: #666;
-  border-radius: 4px;
-  transition: all 0.3s ease;
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #7f8c8d;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
 }
 
 .chart-tab:hover {
-  background: #f5f5f5;
-  color: #333;
+    background: #f8f9fa;
+    color: #2c3e50;
 }
 
 .chart-tab.active {
-  background: #3498db;
-  color: white;
+    background: linear-gradient(45deg, #1abc9c, #3498db);
+    color: white;
 }
 
 .chart-container {
-  height: 400px;
-  position: relative;
-  margin: 0 auto;
-  padding: 1rem;
+    height: 400px;
+    position: relative;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Hide scrollbars but keep functionality */
+.dashboard-container main::-webkit-scrollbar,
+.charts-section::-webkit-scrollbar,
+.dashboard-cards::-webkit-scrollbar {
+    display: none;
+}
+
+.dashboard-container main,
+.charts-section,
+.dashboard-cards {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 /* Responsive adjustments */
+@media (max-width: 1200px) {
+    .dashboard-container main {
+        width: calc(100% - 250px);
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 992px) {
+    .dashboard-container main {
+        margin-left: 200px;
+        width: calc(100% - 200px);
+    }
+}
+
 @media (max-width: 768px) {
-  .chart-tabs {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+    .dashboard-container main {
+        margin-left: 0;
+        width: 100%;
+    }
 
-  .chart-tab {
-    width: 100%;
-    text-align: center;
-  }
+    .dashboard-container .dashboard-cards {
+        margin: 15px;
+    }
 
-  .chart-container {
-    height: 300px;
-  }
+    .chart-tabs {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+
+    .chart-tab {
+        white-space: nowrap;
+    }
+
+    .chart-container {
+        height: 300px;
+    }
+
+    .charts-section {
+        margin: 30px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-container .dashboard-cards {
+        margin: 10px;
+    }
+
+    .dashboard-container .card {
+        padding: 20px;
+    }
+
+    .dashboard-container .card-icon {
+        font-size: 2rem;
+        padding: 10px;
+    }
+
+    .dashboard-container .card-content p {
+        font-size: 1.5rem;
+    }
+
+    .chart-container {
+        height: 250px;
+    }
+
+    .dashboard-container h2 {
+        font-size: 1.5rem;
+    }
+
+    .charts-section {
+        margin: 20px 10px;
+    }
 }

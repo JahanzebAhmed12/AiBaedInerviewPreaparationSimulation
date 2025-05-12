@@ -19,7 +19,7 @@ import Settings from './Settings';
 import './Dashboard.css';
 import Preparation from './preparation';
 import Badges from './Badges';
-import { FaTachometerAlt, FaUsers, FaChartPie, FaCalendarAlt, FaStar } from 'react-icons/fa';
+import { FaTachometerAlt, FaUsers, FaChartPie, FaCalendarAlt, FaStar, FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import axios from 'axios';
 
 ChartJS.register(
@@ -41,7 +41,9 @@ const Dashboard = () => {
     total_interviews: 0,
     average_score: 0,
     worst_score: 0,
-    best_score: 0
+    best_score: 0,
+    improvement_rate: 0,
+    last_week_interviews: 0
   });
   const [chartData, setChartData] = useState({
     distribution: null,
@@ -168,7 +170,7 @@ const Dashboard = () => {
           <div className="main-content">
             <section id="dashboard" className="section">
               <h2>
-                <FaTachometerAlt /> Dashboard
+                <FaTachometerAlt /> Dashboard Overview
               </h2>
               <div className="dashboard-cards">
                 <div className="card">
@@ -178,6 +180,7 @@ const Dashboard = () => {
                   <div className="card-content">
                     <h3>Total Interviews</h3>
                     <p id="totalInterviews">{stats.total_interviews}</p>
+                    <small>Last Week: {stats.last_week_interviews}</small>
                   </div>
                 </div>
                 <div className="card">
@@ -186,18 +189,21 @@ const Dashboard = () => {
                   </div>
                   <div className="card-content">
                     <h3>Average Score</h3>
-                    <p id="averageScore">{stats.average_score}</p>
+                    <p id="averageScore">{stats.average_score}%</p>
+                    <small className={stats.improvement_rate >= 0 ? 'positive' : 'negative'}>
+                      {stats.improvement_rate >= 0 ? <FaArrowUp /> : <FaArrowDown />}
+                      {Math.abs(stats.improvement_rate)}% from last week
+                    </small>
                   </div>
                 </div>
-              </div>
-              <div className="dashboard-cards">
                 <div className="card">
                   <div className="card-icon">
                     <FaCalendarAlt />
                   </div>
                   <div className="card-content">
                     <h3>Worst Score</h3>
-                    <p id="worstScore">{stats.worst_score}</p>
+                    <p id="worstScore">{stats.worst_score}%</p>
+                    <small>Room for improvement</small>
                   </div>
                 </div>
                 <div className="card">
@@ -206,7 +212,8 @@ const Dashboard = () => {
                   </div>
                   <div className="card-content">
                     <h3>Best Score</h3>
-                    <p id="bestScore">{stats.best_score}</p>
+                    <p id="bestScore">{stats.best_score}%</p>
+                    <small>Personal best</small>
                   </div>
                 </div>
               </div>

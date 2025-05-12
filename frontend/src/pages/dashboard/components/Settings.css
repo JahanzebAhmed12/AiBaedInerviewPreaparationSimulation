@@ -1,125 +1,268 @@
 /* General Settings Section */
 .settings-section {
-    background: #ffffff;
-    border: 0.5px solid  #003441;
-    padding: 60px;
-    margin-left: 80px;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    margin-top: 30px;
+    padding: 30px;
+    background: #f5f7fa;
+    min-height: calc(100vh - 70px);
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    transition: all 0.3s ease;
+}
+
+.settings-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-left: 5px;
 }
 
 /* Separate Heading Styles */
 .settings-heading-container {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    padding: 0 20px;
+    margin-left: -270px;
+    margin-top: -10px;
 }
 
-.settings-heading-container h2.settings-heading {
+.settings-heading {
     font-size: 28px;
-    color: #003441;
+    color: #2c3e50;
+    font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
-/* Icon Styles */
-.settings-section .icon-wrapper {
-    margin-right: 6px;
+.settings-heading svg {
+    color: #1abc9c;
 }
 
 /* Form Group Styles */
-.settings-section .form-group {
-    margin-bottom: 5px;
+.settings-form {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    margin: 0 20px;
 }
 
-.settings-section .form-group label {
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.form-group label {
     display: flex;
     align-items: center;
-    margin-bottom: 8px;
-    font-size: 16px;
-    color: #003441;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    color: #2c3e50;
+    font-weight: 500;
 }
 
-.settings-section .form-group input {
-    width: 100%;
-    padding: 10px 5px;
-    border: 0.5px solid  #003441;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: border 0.3s ease;
-}
-
-.settings-section .form-group input:focus {
+.form-group label svg {
     color: #1abc9c;
+    font-size: 1.1rem;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #2c3e50;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #1abc9c;
     outline: none;
+    box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.1);
+    background: white;
+}
+
+.form-group input::placeholder {
+    color: #95a5a6;
+}
+
+.form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%232c3e50' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    padding-right: 40px;
+    cursor: pointer;
+}
+
+.form-group select option {
+    background: white;
+    color: #2c3e50;
+    padding: 10px;
+}
+
+.form-group input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.form-group input[type="number"]::-webkit-outer-spin-button,
+.form-group input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Reset styles for empty state */
+.form-group input:not([value]),
+.form-group select:not([value]) {
+    color: #95a5a6;
+}
+
+.form-group input:placeholder-shown,
+.form-group select:not([value]) {
+    color: #95a5a6;
 }
 
 /* Button Styles */
-.settings-section .submit-btn {
-    padding: 12px 25px;
-    margin-top: 20px;
-    color: #1abc9c;
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(45deg, #1abc9c, #3498db);
+    color: white;
     border: none;
-    border-radius: 10px;
-    color: #ffffff;
-    border: 0.5px solid  #003441;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
-    font-size: 16px;
     display: flex;
     align-items: center;
-    transition: background 0.3s ease;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(26, 188, 156, 0.3);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+.submit-btn svg {
+    font-size: 1.1rem;
+}
+
+/* Success Message */
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Error Message */
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Media Queries for Responsiveness */
-
-/* For smaller screens (Tablets) */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .settings-section {
-        padding: 40px; /* Reduce padding */
-        margin-left: 20px; /* Reduce margin */
-        max-width: 100%; /* Allow it to take full width */
-    }
-
-    .settings-heading-container h2.settings-heading {
-        font-size: 24px; /* Adjust heading size */
-    }
-
-    .settings-section .form-group label {
-        font-size: 14px; /* Smaller font size for labels */
-    }
-
-    .settings-section .form-group input {
-        font-size: 14px; /* Smaller font size for inputs */
-    }
-
-    .settings-section .submit-btn {
-        font-size: 14px; /* Adjust button font size */
-        padding: 10px 20px; /* Adjust padding */
+        width: calc(100% - 250px);
     }
 }
 
-/* For very small screens (Phones) */
+@media (max-width: 992px) {
+    .settings-section {
+        margin-left: 200px;
+        width: calc(100% - 200px);
+    }
+}
+
+@media (max-width: 768px) {
+    .settings-section {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+    }
+
+    .settings-content {
+        padding: 15px;
+    }
+
+    .settings-heading {
+        font-size: 24px;
+        margin-bottom: 25px;
+    }
+
+    .settings-form {
+        padding: 25px;
+        margin: 0 10px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+}
+
 @media (max-width: 480px) {
     .settings-section {
-        padding: 20px; /* Further reduce padding */
-        margin-left: 0; /* No margin */
+        padding: 15px;
     }
 
-    .settings-heading-container h2.settings-heading {
-        font-size: 20px; /* Smaller heading size */
+    .settings-content {
+        padding: 10px;
     }
 
-    .settings-section .form-group label {
-        font-size: 12px; /* Further reduce font size */
+    .settings-heading {
+        font-size: 20px;
+        margin-bottom: 20px;
     }
 
-    .settings-section .form-group input {
-        font-size: 12px; /* Further reduce input font size */
+    .settings-form {
+        padding: 20px;
+        margin: 0;
     }
 
-    .settings-section .submit-btn {
-        font-size: 12px; /* Further reduce button font size */
-        padding: 8px 15px; /* Further reduce button padding */
+    .form-group label {
+        font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+
+    .submit-btn {
+        padding: 12px;
+        font-size: 0.95rem;
     }
 }

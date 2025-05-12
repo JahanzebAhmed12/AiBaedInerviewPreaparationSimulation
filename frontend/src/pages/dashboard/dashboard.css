@@ -4,7 +4,7 @@ main {
   padding-top: 70px; /* To account for the fixed header */
   margin-left: 250px; /* To account for the fixed sidebar */
   padding: 30px;
-  background-color: #f2f2f2;
+  background-color: #f9f9f9;
   min-height: calc(100vh - 60px); /* To account for full height minus header */
 }
 

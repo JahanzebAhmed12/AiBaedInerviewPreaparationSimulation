@@ -1,106 +1,149 @@
+.start-interview-section {
+    padding: 20px;
+    background: #f5f7fa;
+    min-height: calc(100vh - 70px);
+}
+
+.start-interview-section h2 {
+    font-size: 28px;
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.start-interview-section h2 svg {
+    color: #1abc9c;
+}
+
 .start-interview-section form {
-    background: #ffffff;
-    border: 1px solid  #003441;
-    padding: 60px;
+    background: white;
     border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 30px;
     max-width: 500px;
-    margin-top: 70px;
-    margin-left: 80px;
+    margin: 0 auto;
 }
 
 .start-interview-section .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .start-interview-section form label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 16px;
-    color:  #003441;
     display: flex;
     align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    color: #2c3e50;
+    font-weight: 500;
 }
 
-.start-interview-section form label i {
-    margin-right: 8px;
+.start-interview-section form label svg {
     color: #1abc9c;
+    font-size: 1.1rem;
 }
 
 .start-interview-section form input {
     width: 100%;
-    padding: 10px 5px;
-    border: 1px solid  #003441;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: border 0.3s ease;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #2c3e50;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
 }
 
 .start-interview-section form input:focus {
     border-color: #1abc9c;
     outline: none;
+    box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.1);
+    background: white;
+}
+
+.start-interview-section form input::placeholder {
+    color: #95a5a6;
 }
 
 .start-interview-section form button {
-    padding: 12px 25px;
-    background: #1abc9c;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(45deg, #1abc9c, #3498db);
+    color: white;
     border: none;
-    border-radius: 30px;
-    border: 1px solid  #003441;
-    color: #ffffff;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    transition: background 0.3s ease;
-}
-.icon-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #1abc9c;
-}
-.start-interview-section .s-interview-icons {
-    margin-right: 8px;
+    gap: 10px;
+    transition: all 0.3s ease;
+    margin-top: 10px;
 }
 
 .start-interview-section form button:hover {
-    background: #16a085;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(26, 188, 156, 0.3);
 }
 
-.start-interview-section h2 {
-    margin-left: -260px; /* Adjusted scope */
+.start-interview-section form button:active {
+    transform: translateY(0);
 }
 
-/* Media Queries for Responsiveness */
+.start-interview-section form button svg {
+    font-size: 1.1rem;
+}
 
-/* For smaller screens (Tablets) */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-    .start-interview-section form {
-        margin-left: 20px; /* Reduce the left margin */
-        padding: 40px; /* Adjust padding for smaller screens */
-        max-width: 90%; /* Allow the form to take more width on smaller screens */
+    .start-interview-section {
+        padding: 15px;
     }
 
     .start-interview-section h2 {
-        margin-left: 0; /* Adjust heading margin */
+        font-size: 24px;
+        margin-bottom: 25px;
+    }
+
+    .start-interview-section form {
+        padding: 25px;
+    }
+
+    .start-interview-section .form-group {
+        margin-bottom: 20px;
     }
 }
 
-/* For very small screens (Phones) */
 @media (max-width: 480px) {
+    .start-interview-section {
+        padding: 10px;
+    }
+
+    .start-interview-section h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
     .start-interview-section form {
-        margin-left: 10px; /* Further reduce margin for mobile */
-        padding: 30px; /* Further reduce padding */
-        max-width: 95%; /* Max width set to 95% */
+        padding: 20px;
+    }
+
+    .start-interview-section form label {
+        font-size: 0.9rem;
     }
 
     .start-interview-section form input {
-        font-size: 14px; /* Reduce font size for input fields */
+        padding: 10px 12px;
+        font-size: 0.9rem;
     }
 
     .start-interview-section form button {
-        font-size: 14px; /* Reduce button font size */
-        padding: 10px 20px; /* Adjust button padding */
+        padding: 12px;
+        font-size: 0.95rem;
     }
 }

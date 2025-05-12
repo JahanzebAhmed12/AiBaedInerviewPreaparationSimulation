@@ -1,1 +1,0 @@
-i have a react project. each component has a seperate file. each page has many components and the components are linked by a single js file that also has a css file. then there is also the project main app css and index css file. I am getiing many issues . what can i do combine css in a single file or what.
