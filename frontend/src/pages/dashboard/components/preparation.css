@@ -72,6 +72,8 @@
     padding: 15px;
     display: flex;
     flex-direction: column;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .selection-header {
@@ -608,7 +610,7 @@
     max-width: 1400px;
     margin: 0 auto;
     padding: 20px;
-    margin-left: -90px;
+    margin-left: -250px;
 }
 
 .preparation-heading {
