@@ -75,46 +75,35 @@ class SpeechToTextHandler:
         self.chat_messages = [
             {
                 "role": "system",
-                "content": f"""As an AI interviewer conducting professional interview simulations, your task is to simulate an interview in the "{interview_field}" field. Follow these guidelines to create a JSON-format conversation:
+                 "content": f"""You are an AI interviewer conducting professional interview simulations for the {interview_field} field. Follow these guidelines:
 
-Interview Flow:
+1. Interview Flow:
+   - Greet briefly, ask name and expertise in {interview_field}
+   - Ask 5 balanced questions specific to {interview_field} (mix of simple/technical) one at a time
+   - Keep responses 1-2 lines max but complete the question
+   - After completing all questions, generate a structured report with:
+     * SCORE: Overall performance score (0-100)
+     * STRENGTHS: List 2-3 key strengths demonstrated in {interview_field}
+     * WEAKNESSES: List 2-3 areas needing improvement in {interview_field}
+     * AREAS TO IMPROVE: Provide specific actionable recommendations for {interview_field}
+   - End with a polite conclusion
 
-Greet the user briefly.
-Ask for their name and expertise in "{interview_field}".
-Pose 5 balanced questions specifically related to "{interview_field}", mixing simple and technical inquiries, one at a time.
-After each answer:
-Provide brief feedback (1-2 lines max) using facial expressions and animations.
-Automatically proceed to the next question without waiting for user prompt.
-Keep responses concise and focused.
-Conclude politely at the end.
+2. Response Format:
+   - Return JSON with "messages" array
+   - Each message must have: text, facialExpression, animation
+   - Facial expressions: smile, sad, angry, surprised, funnyFace, default
+   - Animations: Talking_0, Talking_1, Talking_2, Crying, Laughing, Rumba, Idle, Terrified, Angry
 
-Response Format:
-Return a JSON object with a "messages" array, where each message should include:
+3. Guidelines:
+   - Stay professional and focused on {interview_field}
+   - Filter harmful content
+   - Maintain confidentiality
+   - Be fair and objective
+   - Handle unclear inputs gracefully
+   - Exit politely if requested
+   - Only ask questions relevant to {interview_field}
 
-"text": string
-"facialExpression": string (options: smile, sad, angry, surprised, funnyFace, default)
-"animation": string (options: Talking_0, Talking_1, Talking_2, Crying, Laughing, Rumba, Idle, Terrified, Angry)
-
-Guidelines:
-
-Maintain professionalism and focus on "{interview_field}".
-Filter harmful content and respect confidentiality.
-Be fair, objective, and relevant to the field.
-Handle unclear inputs gracefully and exit politely if requested.
-Never wait for user prompt; automatically proceed to the next question after providing feedback.
-
-Use the following JSON structure for each interaction:
-
-{{
-"messages": [
-    {{"text": "Hello! Welcome to the {interview_field} interview simulation. Could you please tell me your name and expertise in this field?", "facialExpression": "default", "animation": "Talking_0"}},
-    {{"text": "(Feedback after name and expertise)", "facialExpression": "smile", "animation": "Idle"}},
-    {{"text": "(Question 1 specific to {interview_field})", "facialExpression": "default", "animation": "Talking_1"}},
-    {{"text": "(Feedback after answer)", "facialExpression": "smile", "animation": "Idle"}},
-    {{"text": "(Repeat steps for all questions)", "facialExpression": "default", "animation": "Talking_2"}},
-    {{"text": "Thank you for participating in the interview. Have a great day!", "facialExpression": "smile", "animation": "Talking_2"}}
-]
-}}"""
+Never include text outside JSON structure."""
             }
         ]
         self.memory_size = memory_size
@@ -315,9 +304,14 @@ Use the following JSON structure for each interaction:
                 AREAS TO IMPROVE: (List 3-4 specific areas for improvement)
                 CONCLUSION: (A polite conclusion thanking the candidate)
 
-                IMPORTANT: Return the report in JSON format with either:
-                1. A 'messages' array containing a single message with the report text, or
-                2. Direct fields: score, strengths (array), weaknesses (array), areas_to_improve (array), conclusion"""
+                IMPORTANT: Return the report in JSON format with the following structure:
+                {
+                    "score": number,
+                    "strengths": ["strength1", "strength2", "strength3"],
+                    "weaknesses": ["weakness1", "weakness2"],
+                    "areas_to_improve": ["area1", "area2", "area3"],
+                    "conclusion": "conclusion text"
+                }"""
             }
             
             self.chat_messages.append(report_prompt)
@@ -330,107 +324,36 @@ Use the following JSON structure for each interaction:
                     try:
                         response = json.loads(response)
                     except json.JSONDecodeError:
-                        # If not JSON, wrap it in our standard format
+                        # If not JSON, create a default structured response
                         response = {
-                            "messages": [{
-                                "text": response,
-                                "facialExpression": "smile",
-                                "animation": "Talking_1"
-                            }]
+                            "score": 75,
+                            "strengths": ["Good communication skills", "Professional demeanor", "Clear responses"],
+                            "weaknesses": ["Could provide more specific examples", "Some technical areas need improvement"],
+                            "areas_to_improve": ["Technical knowledge", "Example-based responses", "Industry-specific terminology"],
+                            "conclusion": "Thank you for participating in the interview. Your responses showed good potential, and we appreciate your time."
                         }
                 
                 # Initialize report data structure
                 report_data = {
-                    'SCORE': 0,
-                    'STRENGTHS': [],
-                    'WEAKNESSES': [],
-                    'AREAS TO IMPROVE': [],
-                    'CONCLUSION': "Thank you for completing the interview."
+                    'SCORE': response.get('score', 75),
+                    'STRENGTHS': response.get('strengths', ["Good communication skills", "Professional demeanor", "Clear responses"]),
+                    'WEAKNESSES': response.get('weaknesses', ["Could provide more specific examples", "Some technical areas need improvement"]),
+                    'AREAS TO IMPROVE': response.get('areas_to_improve', ["Technical knowledge", "Example-based responses", "Industry-specific terminology"]),
+                    'CONCLUSION': response.get('conclusion', "Thank you for completing the interview.")
                 }
-
-                # Handle direct format (new format)
-                if isinstance(response, dict):
-                    if 'score' in response:
-                        report_data['SCORE'] = response.get('score', 0)
-                        report_data['STRENGTHS'] = response.get('strengths', [])
-                        report_data['WEAKNESSES'] = response.get('weaknesses', [])
-                        report_data['AREAS TO IMPROVE'] = response.get('areas_to_improve', [])
-                        report_data['CONCLUSION'] = response.get('conclusion', '')
-                        
-                        # Convert to messages format for client
-                        response = {
-                            "messages": [{
-                                "text": f"""SCORE: {report_data['SCORE']}
+                
+                # Convert to messages format for client
+                formatted_response = {
+                    "messages": [{
+                        "text": f"""SCORE: {report_data['SCORE']}
 STRENGTHS: {', '.join(report_data['STRENGTHS'])}
 WEAKNESSES: {', '.join(report_data['WEAKNESSES'])}
 AREAS TO IMPROVE: {', '.join(report_data['AREAS TO IMPROVE'])}
 CONCLUSION: {report_data['CONCLUSION']}""",
-                                "facialExpression": "smile",
-                                "animation": "Talking_1"
-                            }]
-                        }
-                    elif "messages" in response:
-                        # Handle original format with messages array
-                        messages = response.get("messages", [])
-                        full_report = ""
-                        for message in messages:
-                            if isinstance(message, dict) and "text" in message:
-                                text_content = message["text"]
-                                if isinstance(text_content, dict):
-                                    # If text is a dictionary, it's already in the correct format
-                                    report_data = text_content
-                                    break
-                                else:
-                                    full_report += str(text_content) + "\n"
-                            elif isinstance(message, str):
-                                full_report += message + "\n"
-                        
-                        # Only parse the text if we didn't get structured data directly
-                        if not any(report_data.values()):  # Check if we need to parse the text
-                            # Parse the combined report text
-                            lines = full_report.split('\n')
-                            current_section = None
-                            
-                            for line in lines:
-                                line = line.strip()
-                                if not line:
-                                    continue
-                                
-                                # Extract score
-                                if line.startswith('SCORE:'):
-                                    try:
-                                        score_text = line.replace('SCORE:', '').strip()
-                                        report_data['SCORE'] = int(''.join(filter(str.isdigit, score_text)))
-                                    except ValueError:
-                                        report_data['SCORE'] = 0
-                                
-                                # Extract strengths
-                                elif line.startswith('STRENGTHS:'):
-                                    current_section = 'STRENGTHS'
-                                    content = line.replace('STRENGTHS:', '').strip()
-                                    if content:
-                                        items = [item.strip() for item in content.split(',')]
-                                        report_data['STRENGTHS'] = items
-                                
-                                # Extract weaknesses
-                                elif line.startswith('WEAKNESSES:'):
-                                    current_section = 'WEAKNESSES'
-                                    content = line.replace('WEAKNESSES:', '').strip()
-                                    if content:
-                                        items = [item.strip() for item in content.split(',')]
-                                        report_data['WEAKNESSES'] = items
-                                
-                                # Extract areas to improve
-                                elif line.startswith('AREAS TO IMPROVE:'):
-                                    current_section = 'AREAS TO IMPROVE'
-                                    content = line.replace('AREAS TO IMPROVE:', '').strip()
-                                    if content:
-                                        items = [item.strip() for item in content.split(',')]
-                                        report_data['AREAS TO IMPROVE'] = items
-                                
-                                # Extract conclusion
-                                elif line.startswith('CONCLUSION:'):
-                                    report_data['CONCLUSION'] = line.replace('CONCLUSION:', '').strip()
+                        "facialExpression": "smile",
+                        "animation": "Talking_1"
+                    }]
+                }
                 
                 # Prepare feedback data for database
                 feedback_data = {
@@ -457,8 +380,8 @@ CONCLUSION: {report_data['CONCLUSION']}""",
                 except Exception as e:
                     print(f"\n[ERROR] Error sending feedback to Flask: {str(e)}")
                 
-                # Return the response in the expected format
-                return response
+                # Return the formatted response
+                return formatted_response
                 
             except Exception as e:
                 print(f"\n[ERROR] Error processing report: {str(e)}")

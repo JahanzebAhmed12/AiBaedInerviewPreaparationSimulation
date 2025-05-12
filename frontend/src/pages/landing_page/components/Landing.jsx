@@ -11,7 +11,7 @@ const Landing = () => {
   return (
     <section id="landing">
       <div className="overlay">
-        <div className="container">
+        <div className="content-wrapper">
           <h2>AI Based Interview</h2>
           <p>"Empowering Your Future with AI-driven Interview Simulations and Assessments!"</p>
           <button className="start-button" onClick={handleStartInterview}>
