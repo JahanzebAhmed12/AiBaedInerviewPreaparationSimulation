@@ -35,9 +35,9 @@ const Settings = () => {
 
                 const data = await response.json();
                 setFormData({
-                    experience: data.experience || '',
-                    designation: data.designation || '',
-                    interview_field: data.interview_field || ''
+                    experience: '',
+                    designation: '',
+                    interview_field: ''
                 });
             } catch (error) {
                 console.error('Profile fetch error:', error);
@@ -158,23 +158,15 @@ const Settings = () => {
                             <div className="icon-wrapper"><FaGraduationCap /></div>
                             Interview Field
                         </label>
-                        <select
+                        <input
+                            type="text"
                             id="interview_field"
                             name="interview_field"
                             value={formData.interview_field}
                             onChange={handleChange}
+                            placeholder="Enter your interview field"
                             required
-                        >
-                            <option value="">Select your interview field</option>
-                            <option value="Software Engineering">Software Engineering</option>
-                            <option value="Data Science">Data Science</option>
-                            <option value="Machine Learning">Machine Learning</option>
-                            <option value="Web Development">Web Development</option>
-                            <option value="Mobile Development">Mobile Development</option>
-                            <option value="DevOps">DevOps</option>
-                            <option value="Cloud Computing">Cloud Computing</option>
-                            <option value="Cybersecurity">Cybersecurity</option>
-                        </select>
+                        />
                     </div>
 
                     <button 
