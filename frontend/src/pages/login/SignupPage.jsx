@@ -5,7 +5,7 @@ import './login.css';
 
 function SignupPage() {
   const goHome = () => {
-    window.location.href = '/'; // Adjust this path if necessary
+    window.location.href = '/login'; // Adjust this path if necessary
   };
 
   return (

@@ -7,10 +7,19 @@ class Config:
     JWT_EXPIRATION_SECONDS = 3600  # 1 hour token validity
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'rZ59GoRMBBAyW7_CSw_f18Dn7s0LSpJ0hm4Xv7Oilfhri0zVUEy45AoKDrkeY0Am')  # For JWT
     
-    # Email Configuration
-    MAIL_SERVER = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
-    MAIL_PORT = int(os.getenv('MAIL_PORT', 587))
-    MAIL_USE_TLS = os.getenv('MAIL_USE_TLS', True)
-    MAIL_USERNAME = os.getenv('MAIL_USERNAME')
-    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
-    MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER')
+    # # Email Configuration
+    # MAIL_SERVER = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
+    # MAIL_PORT = int(os.getenv('MAIL_PORT', 587))
+    # MAIL_USE_TLS = os.getenv('MAIL_USE_TLS', True)
+    # MAIL_USERNAME = os.getenv('MAIL_USERNAME', 'your-email@gmail.com')  # Default development email
+    # MAIL_PASSWORD = os.getenv('MAIL_PASSWORD', '')  # Intentionally empty default
+    # MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER', 'your-email@gmail.com')  # Default sender
+
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = 'saadtariq232@gmail.com'
+    MAIL_PASSWORD = 'fbpy rxva rqmm txsp'
+    MAIL_DEFAULT_SENDER = 'saadtariq232@gmail.com'
+
+
