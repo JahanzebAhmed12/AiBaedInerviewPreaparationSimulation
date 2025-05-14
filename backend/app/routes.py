@@ -445,22 +445,32 @@ def get_score_distribution():
         # Get all feedback for the user
         feedbacks = InterviewFeedback.query.filter_by(user_id=user_id).all()
         
-        # Initialize distribution counters
-        distribution = [0, 0, 0, 0, 0]  # 0-20, 21-40, 41-60, 61-80, 81-100
+        # Initialize distribution counters for 10-point intervals
+        distribution = [0] * 10  # [0-10], [11-20], [21-30], ..., [91-100]
         
         # Count scores in each range
         for feedback in feedbacks:
             score = feedback.score
-            if score <= 20:
+            if score <= 10:
                 distribution[0] += 1
-            elif score <= 40:
+            elif score <= 20:
                 distribution[1] += 1
-            elif score <= 60:
+            elif score <= 30:
                 distribution[2] += 1
-            elif score <= 80:
+            elif score <= 40:
                 distribution[3] += 1
-            else:
+            elif score <= 50:
                 distribution[4] += 1
+            elif score <= 60:
+                distribution[5] += 1
+            elif score <= 70:
+                distribution[6] += 1
+            elif score <= 80:
+                distribution[7] += 1
+            elif score <= 90:
+                distribution[8] += 1
+            else:  # 91-100
+                distribution[9] += 1
         
         return jsonify(distribution)
     except Exception as e:

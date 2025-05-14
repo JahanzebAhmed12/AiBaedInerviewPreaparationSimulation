@@ -70,7 +70,7 @@ function LoginForm() {
         </div>
         <div className="loginForm-checkboxGroup">
           <input type="checkbox" id="remember-me" />
-          <label htmlFor="remember-me">Remember Me</label>
+          {/* <label htmlFor="remember-me">Remember Me</label> */}
         </div>
         <div className="loginForm-forgotPassword">
   <Link to="/forgotpassword">Forgot your password?</Link>

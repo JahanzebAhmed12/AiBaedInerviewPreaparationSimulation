@@ -265,7 +265,8 @@ export const UI = ({ hidden, ...props }) => {
             </button>
           )}
         </div>
-        <div className="flex flex-col gap-2 pointer-events-auto max-w-screen-sm w-full mx-auto">
+
+        {/* <div className="flex flex-col gap-2 pointer-events-auto max-w-screen-sm w-full mx-auto">
           <div className="backdrop-blur-md bg-white bg-opacity-50 p-2 rounded-md text-sm max-h-20 overflow-y-auto mb-2">
             {interimTranscript && (
               <div className="italic text-gray-600">
@@ -299,7 +300,8 @@ export const UI = ({ hidden, ...props }) => {
               Send
             </button>
           </div>
-        </div>
+        </div> */}
+
       </div>
     </>
   );
